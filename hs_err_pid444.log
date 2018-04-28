@@ -1,0 +1,199 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6d2f258e, pid=444, tid=0x00001534
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_144-b01) (build 1.8.0_144-b01)
+# Java VM: Java HotSpot(TM) Client VM (25.144-b01 mixed mode windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0x4258e]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x14c7fc00):  JavaThread "Reference Handler" daemon [_thread_in_vm, id=5428, stack(0x15030000,0x15080000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x00000032
+
+Registers:
+EAX=0x00000000, EBX=0x00000000, ECX=0x00000000, EDX=0x00000032
+ESP=0x1507f840, EBP=0x1507f840, ESI=0x14c7fc00, EDI=0x14c7fc00
+EIP=0x6d2f258e, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x1507f840)
+0x1507f840:   1507f880 6d42db8f 00000000 00000000
+0x1507f850:   00000000 14c7ca10 1507f870 6d40cd96
+0x1507f860:   00000000 6d40bcc5 00000000 14c7fc00
+0x1507f870:   1507f8b8 6d42e43a 00000000 1507f8b8
+0x1507f880:   1507f8b8 6d42e4aa 14c7fc00 00000000
+0x1507f890:   00000000 00000000 00000000 00000000
+0x1507f8a0:   00000000 00000000 00000060 ffffffff
+0x1507f8b0:   ffa2f433 76f99a7c 1507fb7c 6d472ec6 
+
+Instructions: (pc=0x6d2f258e)
+0x6d2f256e:   6d 89 04 0a 5d c3 cc cc cc cc cc cc cc cc cc cc
+0x6d2f257e:   cc cc 55 8b ec 8b 4d 08 8b 15 60 94 62 6d 33 c0
+0x6d2f258e:   38 04 0a 0f 95 c0 5d c3 cc cc cc cc cc cc cc cc
+0x6d2f259e:   cc cc 55 8b ec 8b 45 08 8b 0d 60 94 62 6d c6 04 
+
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX=0x00000000 is an unknown value
+ECX=0x00000000 is an unknown value
+EDX=0x00000032 is an unknown value
+ESP=0x1507f840 is pointing into the stack for thread: 0x14c7fc00
+EBP=0x1507f840 is pointing into the stack for thread: 0x14c7fc00
+ESI=0x14c7fc00 is a thread
+EDI=0x14c7fc00 is a thread
+
+
+Stack: [0x15030000,0x15080000],  sp=0x1507f840,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x4258e]
+V  [jvm.dll+0x17db8f]
+V  [jvm.dll+0x17e4aa]
+V  [jvm.dll+0x1c2ec6]
+C  [msvcr100.dll+0x5c556]
+C  [msvcr100.dll+0x5c600]
+C  [kernel32.dll+0x1343d]
+C  [ntdll.dll+0x39832]
+C  [ntdll.dll+0x39805]
+C  0x00000000
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x14ce2c00 JavaThread "Service Thread" daemon [_thread_blocked, id=5108, stack(0x152d0000,0x15320000)]
+  0x14cbb800 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=3384, stack(0x15590000,0x155e0000)]
+  0x14cba800 JavaThread "Attach Listener" daemon [_thread_blocked, id=6992, stack(0x15480000,0x154d0000)]
+  0x14cc9800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6564, stack(0x15270000,0x152c0000)]
+  0x14ca2800 JavaThread "Finalizer" daemon [_thread_blocked, id=4816, stack(0x150c0000,0x15110000)]
+=>0x14c7fc00 JavaThread "Reference Handler" daemon [_thread_in_vm, id=5428, stack(0x15030000,0x15080000)]
+  0x022ec400 JavaThread "main" [_thread_in_native, id=120, stack(0x02270000,0x022c0000)]
+
+Other Threads:
+  0x14c7a000 VMThread [stack: 0x023a0000,0x023f0000] [id=6100]
+  0x14cc3c00 WatcherThread [stack: 0x15390000,0x153e0000] [id=6532]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x022eadd0] AdapterHandlerLibrary_lock - owner thread: 0x022ec400
+
+Heap:
+ def new generation   total 4928K, used 353K [0x04800000, 0x04d50000, 0x09d50000)
+  eden space 4416K,   8% used [0x04800000, 0x048585b0, 0x04c50000)
+  from space 512K,   0% used [0x04c50000, 0x04c50000, 0x04cd0000)
+  to   space 512K,   0% used [0x04cd0000, 0x04cd0000, 0x04d50000)
+ tenured generation   total 10944K, used 0K [0x09d50000, 0x0a800000, 0x14800000)
+   the space 10944K,   0% used [0x09d50000, 0x09d50000, 0x09d50200, 0x0a800000)
+ Metaspace       used 1653K, capacity 2240K, committed 2240K, reserved 4480K
+
+Card table byte_map: [0x00300000,0x00390000] byte_map_base: 0x002dc000
+
+Polling page: 0x00170000
+
+CodeCache: size=32768Kb used=655Kb max_used=655Kb free=32112Kb
+ bounds [0x02760000, 0x02808000, 0x04760000]
+ total_blobs=143 nmethods=5 adapters=70
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.038 loading class java/util/Collections$UnmodifiableCollection
+Event: 0.038 loading class java/util/Collections$UnmodifiableCollection done
+Event: 0.038 loading class java/util/Collections$UnmodifiableList done
+Event: 0.038 loading class java/util/Collections$UnmodifiableRandomAccessList done
+Event: 0.038 loading class java/lang/ref/ReferenceQueue
+Event: 0.038 loading class java/lang/ref/ReferenceQueue done
+Event: 0.038 loading class java/lang/ref/ReferenceQueue$Null
+Event: 0.038 loading class java/lang/ref/ReferenceQueue$Null done
+Event: 0.038 loading class java/lang/ref/ReferenceQueue$Lock
+Event: 0.038 loading class java/lang/ref/ReferenceQueue$Lock done
+
+
+Dynamic libraries:
+0x00110000 - 0x00143000 	c:\program files (x86)\smartgit\jre\bin\java.exe
+0x76f60000 - 0x770e0000 	C:\Windows\SysWOW64\ntdll.dll
+0x76380000 - 0x76490000 	C:\Windows\syswow64\kernel32.dll
+0x75fa0000 - 0x75fe7000 	C:\Windows\syswow64\KERNELBASE.dll
+0x76a90000 - 0x76b31000 	C:\Windows\syswow64\ADVAPI32.dll
+0x748d0000 - 0x7497c000 	C:\Windows\syswow64\msvcrt.dll
+0x762f0000 - 0x76309000 	C:\Windows\SysWOW64\sechost.dll
+0x76610000 - 0x76700000 	C:\Windows\syswow64\RPCRT4.dll
+0x74810000 - 0x74870000 	C:\Windows\syswow64\SspiCli.dll
+0x74800000 - 0x7480c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x75ff0000 - 0x760f0000 	C:\Windows\syswow64\USER32.dll
+0x75280000 - 0x75310000 	C:\Windows\syswow64\GDI32.dll
+0x76190000 - 0x7619a000 	C:\Windows\syswow64\LPK.dll
+0x74bc0000 - 0x74c5d000 	C:\Windows\syswow64\USP10.dll
+0x70d00000 - 0x70e9e000 	C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.18837_none_41e855142bd5705d\COMCTL32.dll
+0x761a0000 - 0x761f7000 	C:\Windows\syswow64\SHLWAPI.dll
+0x74870000 - 0x748d0000 	C:\Windows\system32\IMM32.DLL
+0x76220000 - 0x762ed000 	C:\Windows\syswow64\MSCTF.dll
+0x69e20000 - 0x69edf000 	c:\program files (x86)\smartgit\jre\bin\msvcr100.dll
+0x6d2b0000 - 0x6d67e000 	c:\program files (x86)\smartgit\jre\bin\client\jvm.dll
+0x6d020000 - 0x6d027000 	C:\Windows\system32\WSOCK32.dll
+0x76310000 - 0x76345000 	C:\Windows\syswow64\WS2_32.dll
+0x74a30000 - 0x74a36000 	C:\Windows\syswow64\NSI.dll
+0x72680000 - 0x726b2000 	C:\Windows\system32\WINMM.dll
+0x72140000 - 0x72149000 	C:\Windows\system32\VERSION.dll
+0x74d00000 - 0x74d05000 	C:\Windows\syswow64\PSAPI.DLL
+0x6cc20000 - 0x6cc2c000 	c:\program files (x86)\smartgit\jre\bin\verify.dll
+0x6cbf0000 - 0x6cc11000 	c:\program files (x86)\smartgit\jre\bin\java.dll
+0x6cbc0000 - 0x6cbd3000 	c:\program files (x86)\smartgit\jre\bin\zip.dll
+0x75340000 - 0x75f8c000 	C:\Windows\syswow64\SHELL32.dll
+0x74a40000 - 0x74b9d000 	C:\Windows\syswow64\ole32.dll
+0x75f90000 - 0x75f9b000 	C:\Windows\syswow64\profapi.dll
+0x70f60000 - 0x7104b000 	C:\Windows\system32\dbghelp.dll
+0x6c7f0000 - 0x6c806000 	C:\Program Files (x86)\SmartGit\jre\bin\net.dll
+0x70a10000 - 0x70a4c000 	C:\Windows\system32\mswsock.dll
+0x747d0000 - 0x747d6000 	C:\Windows\System32\wship6.dll
+0x747c0000 - 0x747c5000 	C:\Windows\System32\wshtcpip.dll
+
+VM Arguments:
+jvm_args: -Djava.net.preferIPv4Stack=true -Dsmartgit.logging=true 
+java_command: com.syntevo.smartgit.transport.askpass.SgAskPasswordMain Password for 'https://jonathansc92@gmail.com@bitbucket.org': 
+java_class_path (initial): C:\Users\Toda\AppData\Roaming\syntevo\SmartGit\updates\repo\smartgit.jar.b09cc26b115df549584a37a3fd882c56088ed17c;C:\Users\Toda\AppData\Roaming\syntevo\SmartGit\updates\repo\trilead.jar.463924cac9f167232b6e5a57a1eecd2ab2d4f482;C:\Users\Toda\AppData\Roaming\syntevo\SmartGit\updates\repo\log4j.jar.f0a0d2e29ed910808c33135a3a5a51bba6358f7b
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\Program Files (x86)\SmartGit\git\mingw32/libexec/git-core;C:\Program Files (x86)\SmartGit\git\mingw32/libexec/git-core;C:\Program Files (x86)\SmartGit\git\mingw32\bin;C:\Program Files (x86)\SmartGit\git\usr\bin;C:\Users\Toda\bin;C:\Program Files (x86)\SmartGit\lib;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\Toda\AppData\Roaming\Composer\vendor\bin;C:\Users\Toda\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\3.6\bin;c:\program files (x86)\smartgit\jre\bin
+USERNAME=Toda
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 37 Stepping 5, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 (6.1.7601.24000)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 37 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht, tsc, tscinvbit
+
+Memory: 4k page, physical 6083136k(2204380k free), swap 12164396k(7615696k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.144-b01) for windows-x86 JRE (1.8.0_144-b01), built on Jul 21 2017 21:58:05 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sun Jan 28 19:56:49 2018
+elapsed time: 0 seconds (0d 0h 0m 0s)
+
