@@ -8,7 +8,7 @@
         <div class="card-box mb-0">
             <div class="text-center m-t-20">
                 <a href="#" class="logo">
-                    Admin - Viagem a Três
+                    <i class='fa fa-hospital-o'></i> Clínica
 <!--                    <span> <img src="{{url('/images/logo_site.png')}}" /></span></a>-->
                 </a>
             </div>
@@ -55,8 +55,8 @@
                                         </div>-->
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            Login
+                        <button type="submit" class="btn btn-success btn-block">
+                            Entrar
                         </button>
                     </div>
                 </form>
