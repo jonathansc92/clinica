@@ -1,4 +1,4 @@
-@extends('admin/layouts/app')
+@extends('layouts/app')
 @section('content') 
 
 <link href="{{ asset('theme/uplon-admin/plugins/custombox/css/custombox.min.css') }}" rel="stylesheet">

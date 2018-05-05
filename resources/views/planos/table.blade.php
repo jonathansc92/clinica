@@ -1,4 +1,4 @@
-@extends('admin/layouts/app')
+@extends('layouts/app')
 @section('content')
 
 
@@ -7,16 +7,7 @@
     <panel size="12">
 
         <div class='row'>
-            @include('flash::message')
-        </div>
-
-        <div class='row'>
-
-            @if(Request::segment(2) == 'posts')
-                <a href="/admin/posts/add/post" class="btn btn-success"><span class="fa fa-plus"></span> Adicionar</a>
-            @else
-                <a href="/admin/posts/add/tip" class="btn btn-success"><span class="fa fa-plus"></span> Adicionar</a>
-            @endif
+                <a href="" class="btn btn-success"><span class="fa fa-plus"></span> Adicionar</a>
         </div>
 
         <table id="posts" class="table table-striped table-hover">
