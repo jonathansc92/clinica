@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Yajra\Datatables\Datatables;
-use App\Models\Planos;
+use App\Models\Especialidades;
 use Toastr;
 
-class PlanosController extends Controller {
+class EspecialidadesController extends Controller {
 
-    public function __construct(Planos $plano) {
+    public function __construct(Especialidades $obj) {
         $this->middleware('auth');
-        $this->model = $plano;
+        $this->model = $obj;
     }
 
     protected function getQuery() {
@@ -23,6 +23,9 @@ class PlanosController extends Controller {
     function data() {
 
         return Datatables::of($this->getQuery())
+//                        ->editColumn('d_nascimento', function($rec) {
+//                            return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
+//                        })
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
@@ -30,29 +33,26 @@ class PlanosController extends Controller {
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/planos/show/' . $model->id . '"><i class="fa fa-eye"></i> Visualizar</button>
+                data-url="/especialidades/show/' . $model->id . '"><i class="fa fa-eye"></i> Visualizar</button>
                 
                 <button id="getModal" class="btn btn-primary" 
                 data-title="Editar" 
                 data-toggle="modal" 
                 data-target=".modal" 
-                data-url="/planos/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</button>
-                <a class="btn btn-danger" href="/planos/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
+                data-url="/especialidades/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</button>
+                <a class="btn btn-danger" href="/especialidades/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
                         })
-//            ->editColumn('data_criacao', function($rec){
-//                return $rec->data_criacao ? with(new Carbon($rec->data_criacao))->format('d/m/Y h:i'): '';
-//            })
                         ->rawColumns(['actions'])->make(true);
     }
 
     public function index() {
-        $displayName = 'Planos';
-        return view('planos.index', compact('displayName', $displayName));
+        $displayName = 'Especialidades';
+        return view('especialidades.index', compact('displayName', $displayName));
     }
 
     public function add() {
 
-        return view('planos.add');
+        return view('especialidades.add');
     }
 
     public function store(Request $request) {
@@ -65,26 +65,26 @@ class PlanosController extends Controller {
 //            Toastr::error('Campo Titulo não pode ser vazio', $title = null, $options = []);
 //            return redirect()->back();
 //        }
-        
+
         $this->model->descricao = $request['descricao'];
         $this->model->cnpj = $request['cnpj'];
         $this->model->contato = $request['contato'];
         $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->save();
-                
+
         return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Salvo com sucesso']);
     }
 
     public function edit($id) {
-        $planos = $this->model->find($id);
+        $especialidades = $this->model->find($id);
 
-        return view('planos.edit', compact('planos', $planos));
+        return view('especialidades.edit', compact('especialidades', $especialidades));
     }
 
     public function show($id) {
-        $planos = $this->model->find($id);
-        return view('planos.show', compact('planos', $planos));
+        $especialidades = $this->model->find($id);
+        return view('especialidades.show', compact('especialidades', $especialidades));
     }
 
     public function update(Request $request, $id) {

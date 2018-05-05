@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content') 
 
-<pagetitlebox size='12' title="Lista de {{$displayName}}" icon="list-alt"></pagetitlebox>
+<pagetitlebox size='12' title="Lista de {{$displayName}}" icon="user-md"></pagetitlebox>
 
 <panel size="12">
     <div class='row'>
@@ -9,9 +9,9 @@
                 data-title="Adicionar" 
                 data-toggle="modal" 
                 data-target=".modal" 
-                data-url="/planos/add/"><i class='fa fa-plus'></i> Adicionar</button>
+                data-url="/medicos/add/"><i class='fa fa-plus'></i> Adicionar</button>
     </div>
-    @include('planos.table')
+    @include('medicos.table')
 </panel>
 
 <script>
@@ -22,7 +22,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#planos').DataTable({
+        $('#medicos').DataTable({
             select: true,
             "lengthChange": false,
             "language": {
@@ -39,13 +39,14 @@
             },
             "processing": true,
             "serverSide": true,
-            "ajax": '/planos/data',
+            "ajax": '/medicos/data',
 
             columns: [
-                {data: 'id', name: 'id'},
-                {data: 'descricao', name: 'descricao'},
-                {data: 'cnpj', name: 'cnpj'},
-                {data: 'contato', name: 'contato'},
+                {data: 'crm', name: 'crm'},
+                {data: 'nome', name: 'nome'},
+                {data: 'd_nascimento', name: 'd_nascimento'},
+                {data: 'cpf', name: 'cpf'},
+                {data: 'especialidade', name: 'especialidade'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

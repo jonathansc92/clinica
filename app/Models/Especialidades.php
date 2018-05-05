@@ -19,5 +19,9 @@ class Especialidades extends Model {
     public function __construct() {
         
     }
+    
+    public function medicos(){
+        return $this->belongsTo(\App\Models\Medicos::class, 'id_especialidade');
+    }
 
 }

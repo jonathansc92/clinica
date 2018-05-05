@@ -6,7 +6,7 @@
  
                 <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="#">Geral</a></li>
-                    <li class="breadcrumb-item active"> </li>
+                    <li class="breadcrumb-item active"> {{ title }}</li>
                 </ol>
 
                 <div class="clearfix"></div>

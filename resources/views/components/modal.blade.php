@@ -86,7 +86,8 @@
                     });
 
                     // Depois de salvar fecha modal
-                    $('.modal').modal('hide');
+//                    $('.modal').modal('hide');
+                    $( '.modal' ).modal( 'hide' ).data( 'bs.modal', null );
                     $('#dynamic-content').html('');
                     $('#btnModal').hide();
                     $('#title').html('');

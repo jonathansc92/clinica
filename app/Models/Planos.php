@@ -20,5 +20,9 @@ class Planos extends Model {
     public function __construct() {
         
     }
+    
+    public function pacientes(){
+        return $this->belongsTo(\App\Models\Pacientes::class, 'id_plano');
+    }
 
 }

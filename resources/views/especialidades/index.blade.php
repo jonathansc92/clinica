@@ -9,9 +9,9 @@
                 data-title="Adicionar" 
                 data-toggle="modal" 
                 data-target=".modal" 
-                data-url="/planos/add/"><i class='fa fa-plus'></i> Adicionar</button>
+                data-url="/especialidades/add/"><i class='fa fa-plus'></i> Adicionar</button>
     </div>
-    @include('planos.table')
+    @include('especialidades.table')
 </panel>
 
 <script>
@@ -22,7 +22,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#planos').DataTable({
+        $('#especialidades').DataTable({
             select: true,
             "lengthChange": false,
             "language": {
@@ -39,13 +39,12 @@
             },
             "processing": true,
             "serverSide": true,
-            "ajax": '/planos/data',
+            "ajax": '/especialidades/data',
 
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'descricao', name: 'descricao'},
-                {data: 'cnpj', name: 'cnpj'},
-                {data: 'contato', name: 'contato'},
+                {data: 'valor_consulta', name: 'valor_consulta'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

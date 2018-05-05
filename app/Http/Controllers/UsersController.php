@@ -7,28 +7,25 @@ use App\Models\User;
 use App\Models\Images;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
+use Toastr;
 
+class UsersController extends Controller {
 
-class UsersController extends Controller
-{
-
-    public function __construct()
-    {
+    public function __construct(User $obj) {
         $this->middleware('auth');
+        $this->obj = $obj;
     }
 
-    public function edit()
-    {
+    public function edit() {
 
         $var['title'] = 'Perfil';
 
-        $var['user'] = User::first();
+        $var['user'] = User::find($this->obj->getUserId());
 
-        return view('admin.aboutus.index', compact('var'));
+        return view('users.edit', compact('var'));
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
 
         $data = $request->all();
 
@@ -42,7 +39,7 @@ class UsersController extends Controller
                 if ($data['password'] == $data['confirm_password']) {
                     $data['password'] = bcrypt($data['password']);
                 } else {
-                    flash('As senhas preenchidas não são diferentes!')->error();
+                    Toastr::warning('As senhas preenchidas não são diferentes!', $title = 'Perfil', $options = []);
                     return redirect()->back();
                 }
             }
@@ -64,14 +61,12 @@ class UsersController extends Controller
                 Images::upload($imgname, $img, 200, 200, 'images/perfil/');
 
                 $data['img'] = $imgname;
-
             }
         }
 
-       $user->first()->update($data);
+        $user->first()->update($data);
 
-        flash('Perfil atualizado!')->success();
-
+        Toastr::success('Atualizado com sucesso', $title = 'Perfil', $options = []);
         return redirect()->back();
     }
 

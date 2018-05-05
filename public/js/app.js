@@ -44953,7 +44953,13 @@ var render = function() {
           _vm._v(" " + _vm._s(_vm.title))
         ]),
         _vm._v(" "),
-        _vm._m(0),
+        _c("ol", { staticClass: "breadcrumb float-right" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("li", { staticClass: "breadcrumb-item active" }, [
+            _vm._v(" " + _vm._s(_vm.title))
+          ])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "clearfix" })
       ])
@@ -44965,12 +44971,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ol", { staticClass: "breadcrumb float-right" }, [
-      _c("li", { staticClass: "breadcrumb-item" }, [
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Geral")])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "breadcrumb-item active" })
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "#" } }, [_vm._v("Geral")])
     ])
   }
 ]
