@@ -18,8 +18,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Fechar
                 </button>
-                <button style='display: none' type="button" id='btnModal' class="btn btn-primary"><i
-                            class="fa fa-save"></i> Salvar
+                <button style='display: none' type="button" id='btnSave' class="btn btn-primary"><i
+                        class="fa fa-save"></i> Salvar
                 </button>
             </div>
         </div>
@@ -46,9 +46,9 @@
 
 
             if (dataType == 'view') {
-                $('#btnModal').hide();
+                $('#btnSave').hide();
             } else {
-                $('#btnModal').show();
+                $('#btnSave').show();
             }
 
             $.ajax({
@@ -66,7 +66,8 @@
         });
     });
 
-    $("#btnModal").click(function () {
+    $("#btnSave").click(function () {
+       
 
         var action = $("#formModal").attr('action');
 
@@ -86,18 +87,16 @@
                     });
 
                     // Depois de salvar fecha modal
-//                    $('.modal').modal('hide');
-                    $( '.modal' ).modal( 'hide' ).data( 'bs.modal', null );
+                    $('.modal').modal('hide');
                     $('#dynamic-content').html('');
-                    $('#btnModal').hide();
+                    $('#btnSave').hide();
                     $('#title').html('');
 
                     // Atualiza tabela Datatables
                     if ($("table").attr('id')) {
                         $("#" + $("table").attr('id')).DataTable().ajax.reload();
                     }
-                }
-                else {
+                } else {
                     // Mensagem Toastr
                     toastr.warning(response.msg, response.title, {
                         showDuration: 1000,
@@ -114,20 +113,29 @@
 
                 });
             }
+
+
         });
+        
     });
 
-    $('html').bind('keypress', function(e) {
-        if(e.keyCode == 13) {
+    $('html').bind('keypress', function (e) {
+        if (e.keyCode == 13) {
             return false;
         }
     });
 
-    $('body').on('hidden.bs.modal', '.modal', function () {
+//    $('body').on('hidden.bs.modal', '.modal', function () {
+//        $('#dynamic-content').html('');
+//        $('#btnSave').hide();
+//        $('#title').html('');
+//
+//    });
+
+    $(".modal").on('hide.bs.modal', function () {
+        alert('The modal is about to be hidden.');
         $('#dynamic-content').html('');
-        $('#btnModal').hide();
+        $('#btnSave').hide();
         $('#title').html('');
-
     });
-
 </script>

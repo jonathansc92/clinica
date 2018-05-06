@@ -5,11 +5,7 @@
 
 <panel size="12">
     <div class='row'>
-        <button id="getModal" class="btn btn-success" 
-                data-title="Adicionar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/pacientes/add/"><i class='fa fa-plus'></i> Adicionar</button>
+        <a href="/pacientes/add/" class='btn btn-success'><i class='fa fa-plus'></i> Adicionar</a>
     </div>
     @include('pacientes.table')
 </panel>
@@ -42,6 +38,7 @@
             "ajax": '/pacientes/data',
 
             columns: [
+                {data: 'id', name: 'id'},
                 {data: 'nome', name: 'nome'},
                 {data: 'sexo', name: 'sexo'},
                 {data: 'd_nascimento', name: 'd_nascimento'},

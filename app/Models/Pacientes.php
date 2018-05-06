@@ -12,6 +12,7 @@ class Pacientes extends Model {
         'nome',
         'd_nascimento',
         'sexo',
+        'id_plano',
         'created_at',
         'updated_at'
     ];
@@ -28,7 +29,7 @@ class Pacientes extends Model {
 
     public function gridLst() {
         return $this->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano')
-                        ->select('tb_paciente.sexo', 'tb_paciente.cpf', 'tb_paciente.nome', 'tb_paciente.d_nascimento', 'tb_plano.descricao as plano');
+                        ->select('tb_paciente.id','tb_paciente.sexo', 'tb_paciente.cpf', 'tb_paciente.nome', 'tb_paciente.d_nascimento', 'tb_plano.descricao as plano');
     }
 
 

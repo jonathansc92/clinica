@@ -2,6 +2,7 @@
 
     <thead>
         <tr>
+            <th>ID</th>
             <th>CRM</th>
             <th>Nome</th>
             <th>Data de Nascimento</th>

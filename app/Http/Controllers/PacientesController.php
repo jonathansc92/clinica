@@ -33,14 +33,10 @@ class PacientesController extends Controller {
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/pacientes/show/' . $model->id . '"><i class="fa fa-eye"></i> Visualizar</button>
+                data-url="/pacientes/show/' . $model->id . '"><i class="fa fa-eye"></i> Ver</button>
                 
-                <button id="getModal" class="btn btn-primary" 
-                data-title="Editar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/pacientes/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</button>
-                <a class="btn btn-danger" href="/pacientes/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
+             <a class="btn btn-primary" href="/pacientes/edit/' . $model->id . '"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-danger" href="/pacientes/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
                         })
                         ->rawColumns(['actions'])->make(true);
     }
@@ -51,35 +47,31 @@ class PacientesController extends Controller {
     }
 
     public function add() {
+        $planos = \App\Models\Planos::pluck('descricao', 'id');
 
-        return view('pacientes.add');
+        return view('pacientes.add')
+                        ->with('planos', $planos);
     }
 
     public function store(Request $request) {
-        //        if (empty($data['content'])) {
-//            Toastr::error('Campo conteúdo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-//
-//        if (empty($data['title'])) {
-//            Toastr::error('Campo Titulo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-
-        $this->model->descricao = $request['descricao'];
-        $this->model->cnpj = $request['cnpj'];
-        $this->model->contato = $request['contato'];
+        $this->model->nome = $request['nome'];
+        $this->model->cpf = $request['cpf'];
+        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
+        $this->model->sexo = $request['sexo'];
+        $this->model->id_plano = $request['id_plano'];
         $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->save();
+        $data = $this->model->save();
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Salvo com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
+        return redirect('/pacientes/edit/' . $data->id);
     }
 
     public function edit($id) {
-        $pacientes = $this->model->find($id);
+        $data = $this->model->find($id);
+        $planos = \App\Models\Planos::pluck('descricao', 'id');
 
-        return view('pacientes.edit', compact('pacientes', $pacientes));
+        return view('pacientes.edit', compact('data', $data, 'planos', $planos));
     }
 
     public function show($id) {
@@ -90,10 +82,13 @@ class PacientesController extends Controller {
     public function update(Request $request, $id) {
 
         $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-
+        $request['d_nascimento'] = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
+        
         $this->model->find($id)->update($request->all());
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Atualizado com sucesso']);
+        Toastr::success('Atualizado com sucesso', $title = 'Paciente', $options = []);
+
+        return redirect()->back();
     }
 
     public function destroy($id) {

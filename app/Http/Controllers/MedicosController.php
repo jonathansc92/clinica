@@ -29,18 +29,14 @@ class MedicosController extends Controller {
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
-                data-title="Plano: ' . $model->descricao . '" 
+                data-title="Médico: ' . $model->nome . '" 
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/medicos/show/' . $model->id . '"><i class="fa fa-eye"></i> Visualizar</button>
+                data-url="/medicos/show/' . $model->id . '"><i class="fa fa-eye"></i> Ver</button>
                 
-                <button id="getModal" class="btn btn-primary" 
-                data-title="Editar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/medicos/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</button>
-                <a class="btn btn-danger" href="/medicos/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
+                <a class="btn btn-primary" href="/medicos/edit/' . $model->id . '"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-danger" href="/medicos/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
                         })
                         ->rawColumns(['actions'])->make(true);
     }
@@ -52,48 +48,49 @@ class MedicosController extends Controller {
 
     public function add() {
 
-        return view('medicos.add');
+        $especialidades = \App\Models\Especialidades::pluck('descricao', 'id');
+
+        return view('medicos.add')->with('especialidades', $especialidades);
     }
 
     public function store(Request $request) {
-        //        if (empty($data['content'])) {
-//            Toastr::error('Campo conteúdo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-//
-//        if (empty($data['title'])) {
-//            Toastr::error('Campo Titulo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
 
-        $this->model->descricao = $request['descricao'];
-        $this->model->cnpj = $request['cnpj'];
-        $this->model->contato = $request['contato'];
+        $this->model->nome = $request['nome'];
+        $this->model->cpf = $request['cpf'];
+        $this->model->crm = $request['crm'];
+        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
+        $this->model->sexo = $request['sexo'];
+        $this->model->id_especialidade = $request['id_especialidade'];
         $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->save();
+        $data = $this->model->save();
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Salvo com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
+        return redirect('/medicos/edit/' . $data->id);
     }
 
     public function edit($id) {
-        $medicos = $this->model->find($id);
+        $data = $this->model->find($id);
+        $especialidades = \App\Models\Especialidades::pluck('descricao', 'id');
 
-        return view('medicos.edit', compact('medicos', $medicos));
+        return view('medicos.edit', compact('data', $data, 'especialidades', $especialidades));
     }
 
     public function show($id) {
-        $medicos = $this->model->find($id);
-        return view('medicos.show', compact('medicos', $medicos));
+        $data = $this->model->find($id);
+        return view('medicos.show', compact('data', $data));
     }
 
     public function update(Request $request, $id) {
 
         $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
+        $request['d_nascimento'] = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
 
         $this->model->find($id)->update($request->all());
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Atualizado com sucesso']);
+        Toastr::success('Atualizado com sucesso', $title = 'Médico', $options = []);
+        
+        return redirect()->back();
     }
 
     public function destroy($id) {

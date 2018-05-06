@@ -1,20 +1,51 @@
-@if(isset($planos->id))
-{!! Form::hidden('id', $planos->id) !!}
+@if(isset($data->id))
+{!! Form::hidden('id', $data->id) !!}
 @endif
 
-<div class='form-group'>
-    {!!Form::label('descricao', 'Descrição')!!}
-    {!! Form::text('descricao', isset($planos->descricao)?$planos->descricao:null, ['required'=>'required','class' => 'form-control']) !!}
+<div class='row'>
+    <div class="col-md-12">
+        <div class="form-group">
+            {!! Form::label('nome', 'Nome') !!}
+            {!! Form::text('nome', isset($data->nome)?$data->nome:null, ['required'=>'required','class' => 'form-control', 'placeholder'=>'Digite um nome']) !!}
+
+        </div>
+    </div>
 </div>
 
-<div class='form-group'>
-    {!!Form::label('cnpj', 'CNPJ')!!}
-    {!! Form::text('cnpj', isset($planos->cnpj)?$planos->cnpj:null, ['required'=>'required','class' => 'form-control']) !!}
+<div class='row'>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('cpf', 'CPF') !!}
+            {!! Form::number('cpf', isset($data->cpf)?$data->cpf:null, ['class'=>'form-control', 'placeholder'=>'Digite o número de CPF'])!!}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('sexo', 'Sexo') !!}
+            {!! Form::select('sexo', ['F' => 'Feminino', 'M' => 'Masculino'], isset($data->sexo)?$data->sexo:null, ['class'=>'form-control']); !!}
+        </div>
+    </div>
 </div>
 
-<div class='form-group'>
+<div class='row'>
+    <div class="col-md-6">
+        <div class='form-group'>
+            {!!Form::label('d_nascimento', 'Data de Nascimento')!!}
+            {!! Form::date('d_nascimento', isset($data->d_nascimento)?$data->d_nascimento:null,['class'=>'form-control']) !!}
+        </div>
+    </div>
 
-    {!!Form::label('contato', 'Contato')!!}
-    {!! Form::text('contato', isset($planos->contato)?$planos->contato:null, ['required'=>'required','class' => 'form-control']) !!}
+    <div class="col-md-6">
+        <div class='form-group'>
+            {!!Form::label('id_plano', 'Plano')!!}
+            {!! Form::select('id_plano', $planos, ($data->id_plano) ? $data->id_plano : null, ['class'=>'form-control']); !!}
+        </div>
+    </div>
+</div>
 
+<div class="pull-right">
+    <a href='/pacientes' class='btn btn-danger'> Cancelar</a>
+    {!! Form::button('Salvar', ['type' => 'submit', 'class' => 'btn btn-primary'] )  !!}
 </div>

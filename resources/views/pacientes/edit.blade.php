@@ -1,4 +1,13 @@
+@extends('layouts.app')
+@section('content') 
 
-{!! Form::open(['url' => '/planos/update/'. $planos->id, 'id'=>'formModal']) !!}
-    @include('planos.fields')
+<pagetitlebox size='12' title="Editar Paciente" icon="edit"></pagetitlebox>
+
+<panel size="12">
+{!! Form::open(['url' => '/pacientes/update/'. $data->id, 'id'=>'form']) !!}
+    @include('pacientes.fields')
 {!! Form::close() !!}
+
+</panel>
+
+@endsection
