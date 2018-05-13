@@ -40,7 +40,7 @@
     <div class="col-md-6">
         <div class='form-group'>
             {!!Form::label('id_plano', 'Plano')!!}
-            {!! Form::select('id_plano', $planos, ($data->id_plano) ? $data->id_plano : null, ['class'=>'form-control']); !!}
+            {!! Form::select('id_plano', $planos, isset($data->id_plano) ? $data->id_plano : null, ['class'=>'form-control']); !!}
         </div>
     </div>
 </div>

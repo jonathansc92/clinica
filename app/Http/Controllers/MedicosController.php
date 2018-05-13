@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\File;
 use Yajra\Datatables\Datatables;
 use App\Models\Medicos;
 use Toastr;
@@ -21,10 +19,13 @@ class MedicosController extends Controller {
     }
 
     function data() {
-
-        return Datatables::of($this->model->gridLst())
+        
+        return Datatables::of($this->getQuery()->with('especialidade'))
                         ->editColumn('d_nascimento', function($rec) {
                             return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
+                        })
+                        ->editColumn('id_especialidade', function($rec) {
+                            return $rec->especialidade->descricao;
                         })
                         ->addColumn('actions', function ($model) {
                             return '
@@ -33,7 +34,7 @@ class MedicosController extends Controller {
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/medicos/show/' . $model->id . '"><i class="fa fa-eye"></i> Ver</button>
+                data-url="/medicos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>
                 
                 <a class="btn btn-primary" href="/medicos/edit/' . $model->id . '"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-danger" href="/medicos/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
@@ -88,13 +89,18 @@ class MedicosController extends Controller {
 
         $this->model->find($id)->update($request->all());
 
-        Toastr::success('Atualizado com sucesso', $title = 'Médico', $options = []);
-        
+        Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
+
         return redirect()->back();
     }
 
     public function destroy($id) {
-        $this->model->find($id)->delete();
+        try {
+            $this->model->find($id)->delete();
+            Toastr::success('Removido com sucesso', $title = 'Médico', $options = []);
+        } catch (\Illuminate\Database\QueryException $e) {
+            Toastr::error('Não é possível remover. Este dado está sendo usado.', $title = 'Médico', $options = []);
+        }
         return redirect()->back();
     }
 

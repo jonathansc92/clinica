@@ -43,7 +43,7 @@
                 {data: 'nome', name: 'nome'},
                 {data: 'd_nascimento', name: 'd_nascimento'},
                 {data: 'cpf', name: 'cpf'},
-                {data: 'especialidade', name: 'especialidade'},
+                {data: 'id_especialidade', name: 'id_especialidade'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

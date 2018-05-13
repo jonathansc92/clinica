@@ -18,3 +18,9 @@
     {!! Form::text('contato', isset($planos->contato)?$planos->contato:null, ['required'=>'required','class' => 'form-control']) !!}
 
 </div>
+
+
+<div class="pull-right">
+    <a href='/planos' class='btn btn-danger'> Cancelar</a>
+    {!! Form::button('Salvar', ['type' => 'submit', 'class' => 'btn btn-primary'] )  !!}
+</div>

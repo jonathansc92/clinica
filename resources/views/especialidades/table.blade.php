@@ -4,7 +4,7 @@
         <tr>
             <th>ID</th>
             <th>Descrição</th>
-            <th>Valor da Consulta</th>
+            <th>Valor da Consulta (R$)</th>
             <th>#</th>
         </tr>
     </thead>

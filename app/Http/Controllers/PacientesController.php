@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\File;
 use Yajra\Datatables\Datatables;
 use App\Models\Pacientes;
 use Toastr;
@@ -22,18 +20,24 @@ class PacientesController extends Controller {
 
     function data() {
 
-        return Datatables::of($this->model->gridLst())
+        $builder = $this->getQuery();
+        $builder->with('plano');
+        
+        return Datatables::of($this->getQuery())
+                        ->editColumn('descPlano', function($rec) {
+                            return $rec->plano->descricao;
+                        })
                         ->editColumn('d_nascimento', function($rec) {
                             return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
                         })
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
-                data-title="Plano: ' . $model->descricao . '" 
+                data-title="Paciente" 
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/pacientes/show/' . $model->id . '"><i class="fa fa-eye"></i> Ver</button>
+                data-url="/pacientes/show/' . $model->id . '"><i class="fa fa-eye"></i> </button>
                 
              <a class="btn btn-primary" href="/pacientes/edit/' . $model->id . '"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-danger" href="/pacientes/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
@@ -75,7 +79,8 @@ class PacientesController extends Controller {
     }
 
     public function show($id) {
-        $pacientes = $this->model->find($id);
+        $pacientes = $this->model->with('plano')->find($id);
+        
         return view('pacientes.show', compact('pacientes', $pacientes));
     }
 
@@ -83,16 +88,22 @@ class PacientesController extends Controller {
 
         $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
         $request['d_nascimento'] = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-        
+
         $this->model->find($id)->update($request->all());
 
-        Toastr::success('Atualizado com sucesso', $title = 'Paciente', $options = []);
+        Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
 
         return redirect()->back();
     }
 
     public function destroy($id) {
-        $this->model->find($id)->delete();
+        try {
+            $this->model->find($id)->delete();
+            Toastr::success('Removido com sucesso', $title = 'Paciente', $options = []);
+        } catch (\Illuminate\Database\QueryException $e) {
+            Toastr::error('Não é possível remover. Este dado está sendo usado.', $title = 'Paciente', $options = []);
+        }
+
         return redirect()->back();
     }
 

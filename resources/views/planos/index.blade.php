@@ -5,11 +5,7 @@
 
 <panel size="12">
     <div class='row'>
-        <button id="getModal" class="btn btn-success" 
-                data-title="Adicionar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/planos/add/"><i class='fa fa-plus'></i> Adicionar</button>
+        <a class="btn btn-success" href="/planos/add/"><i class='fa fa-plus'></i> Adicionar</a>
     </div>
     @include('planos.table')
 </panel>

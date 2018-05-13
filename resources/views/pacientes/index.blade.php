@@ -12,11 +12,6 @@
 
 <script>
     $(document).ready(function () {
-        $('.select2').select2();
-    });
-</script>
-<script>
-    $(document).ready(function () {
 
         $('#pacientes').DataTable({
             select: true,
@@ -43,7 +38,7 @@
                 {data: 'sexo', name: 'sexo'},
                 {data: 'd_nascimento', name: 'd_nascimento'},
                 {data: 'cpf', name: 'cpf'},
-                {data: 'plano', name: 'plano'},
+                {data: 'descPlano', name: 'descPlano'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

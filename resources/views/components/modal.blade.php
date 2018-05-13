@@ -119,23 +119,11 @@
         
     });
 
-    $('html').bind('keypress', function (e) {
-        if (e.keyCode == 13) {
-            return false;
-        }
-    });
-
-//    $('body').on('hidden.bs.modal', '.modal', function () {
-//        $('#dynamic-content').html('');
-//        $('#btnSave').hide();
-//        $('#title').html('');
-//
-//    });
-
-    $(".modal").on('hide.bs.modal', function () {
-        alert('The modal is about to be hidden.');
+    $('body').on('hidden.bs.modal', '.modal', function () {
         $('#dynamic-content').html('');
         $('#btnSave').hide();
         $('#title').html('');
+
     });
+
 </script>

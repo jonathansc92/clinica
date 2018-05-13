@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\File;
 use Yajra\Datatables\Datatables;
 use App\Models\Planos;
 use Toastr;
@@ -30,18 +28,11 @@ class PlanosController extends Controller {
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/planos/show/' . $model->id . '"><i class="fa fa-eye"></i> Ver</button>
+                data-url="/planos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>
                 
-                <button id="getModal" class="btn btn-primary" 
-                data-title="Editar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/planos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </button>
+                <a class="btn btn-primary"  href="/planos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>
                 <a class="btn btn-danger" href="/planos/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
                         })
-//            ->editColumn('data_criacao', function($rec){
-//                return $rec->data_criacao ? with(new Carbon($rec->data_criacao))->format('d/m/Y h:i'): '';
-//            })
                         ->rawColumns(['actions'])->make(true);
     }
 
@@ -56,24 +47,16 @@ class PlanosController extends Controller {
     }
 
     public function store(Request $request) {
-        //        if (empty($data['content'])) {
-//            Toastr::error('Campo conteúdo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-//
-//        if (empty($data['title'])) {
-//            Toastr::error('Campo Titulo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-
         $this->model->descricao = $request['descricao'];
         $this->model->cnpj = $request['cnpj'];
         $this->model->contato = $request['contato'];
         $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->save();
+        $planos = $this->model->save();
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Salvo com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+
+        return redirect('/planos/edit/' . $planos->id);
     }
 
     public function edit($id) {
@@ -93,7 +76,9 @@ class PlanosController extends Controller {
 
         $this->model->find($id)->update($request->all());
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Atualizado com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+
+        return redirect()->back();
     }
 
     public function destroy($id) {

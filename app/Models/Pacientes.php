@@ -23,8 +23,8 @@ class Pacientes extends Model {
         
     }
     
-    public function planos(){
-        return $this->hasOne(\App\Models\Planos::class, 'id_plano');
+    public function plano(){
+        return $this->belongsTo(\App\Models\Planos::class, 'id_plano');
     }
 
     public function gridLst() {
