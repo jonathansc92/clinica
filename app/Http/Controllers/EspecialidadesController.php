@@ -35,12 +35,8 @@ class EspecialidadesController extends Controller {
                 data-target=".modal" 
                 data-url="/especialidades/show/' . $model->id . '"><i class="fa fa-eye"></i> Visualizar</button>
                 
-                <button id="getModal" class="btn btn-primary" 
-                data-title="Editar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/especialidades/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</button>
-                <a class="btn btn-danger" href="/especialidades/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
+                <a class="btn btn-primary" href="/especialidades/edit/' . $model->id . '"><i class="fa fa-edit"></i> Editar</a>
+                 <a class="btn btn-danger" href="/especialidades/delete/' . $model->id . '"><i class="fa fa-trash"></i> Deletar</a>';
                         })
                         ->rawColumns(['actions'])->make(true);
     }
@@ -56,24 +52,15 @@ class EspecialidadesController extends Controller {
     }
 
     public function store(Request $request) {
-        //        if (empty($data['content'])) {
-//            Toastr::error('Campo conteúdo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
-//
-//        if (empty($data['title'])) {
-//            Toastr::error('Campo Titulo não pode ser vazio', $title = null, $options = []);
-//            return redirect()->back();
-//        }
 
         $this->model->descricao = $request['descricao'];
-        $this->model->cnpj = $request['cnpj'];
-        $this->model->contato = $request['contato'];
+        $this->model->valor_consulta = $request['valor_consulta'];
         $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->save();
+        $especialidade = $this->model->save();
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Salvo com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
+        return redirect('/especialidades/edit/' . $especialidade->id);
     }
 
     public function edit($id) {
@@ -93,11 +80,13 @@ class EspecialidadesController extends Controller {
 
         $this->model->find($id)->update($request->all());
 
-        return response()->json(['status' => 200, 'title' => 'Plano', 'msg' => 'Atualizado com sucesso']);
+        Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
+        return redirect()->back();
     }
 
     public function destroy($id) {
         $this->model->find($id)->delete();
+        Toastr::success('Apagado com sucesso', $title = 'Especialidade', $options = []);
         return redirect()->back();
     }
 

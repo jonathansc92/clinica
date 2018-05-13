@@ -5,20 +5,11 @@
 
 <panel size="12">
     <div class='row'>
-        <button id="getModal" class="btn btn-success" 
-                data-title="Adicionar" 
-                data-toggle="modal" 
-                data-target=".modal" 
-                data-url="/especialidades/add/"><i class='fa fa-plus'></i> Adicionar</button>
+        <a class="btn btn-success" href="/especialidades/add/"><i class='fa fa-plus'></i> Adicionar</a>
     </div>
     @include('especialidades.table')
 </panel>
 
-<script>
-    $(document).ready(function () {
-        $('.select2').select2();
-    });
-</script>
 <script>
     $(document).ready(function () {
 
