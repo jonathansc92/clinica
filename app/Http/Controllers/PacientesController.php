@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Http\Requests\CreatePacientesRequest;
+use App\Services\PacientesService;
+use \App\Repositories\PacientesRepository;
+//use App\Http\Requests\UpdatePacientesRequest;
 use Yajra\Datatables\Datatables;
 use App\Models\Pacientes;
 use Toastr;
 
 class PacientesController extends Controller {
+    
+    protected $service;
+    protected $repo;
 
-    public function __construct(Pacientes $obj) {
+    public function __construct(PacientesRepository $repo, PacientesService $service) {
         $this->middleware('auth');
-        $this->model = $obj;
-    }
-
-    protected function getQuery() {
-        return $this->model->query();
+        $this->service = $service;
+        $this->repo = $repo;
     }
 
     function data() {
 
-        $builder = $this->getQuery();
-        $builder->with('plano');
+        $builder = $this->repo->gridLst();
         
-        return Datatables::of($this->getQuery())
-                        ->editColumn('descPlano', function($rec) {
-                            return $rec->plano->descricao;
-                        })
+        return Datatables::of($builder)
+                     
                         ->editColumn('d_nascimento', function($rec) {
                             return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
                         })
@@ -42,6 +44,7 @@ class PacientesController extends Controller {
              <a class="btn btn-primary" href="/pacientes/edit/' . $model->id . '"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-danger" href="/pacientes/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
                         })
+                        ->setTotalRecords($builder->count())
                         ->rawColumns(['actions'])->make(true);
     }
 
@@ -58,14 +61,10 @@ class PacientesController extends Controller {
     }
 
     public function store(Request $request) {
-        $this->model->nome = $request['nome'];
-        $this->model->cpf = $request['cpf'];
-        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-        $this->model->sexo = $request['sexo'];
-        $this->model->id_plano = $request['id_plano'];
-        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $data = $this->model->save();
+        
+        dd($request->all());
+        
+        $data = $this->service->saveOrUpdate($request->all(), null);
 
         Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
         return redirect('/pacientes/edit/' . $data->id);

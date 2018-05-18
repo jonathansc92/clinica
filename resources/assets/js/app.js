@@ -38,23 +38,11 @@ Vue.component('panel', require('./components/admin/Panel.vue'));
 Vue.component('pagetitlebox', require('./components/admin/PageTitleBox.vue'));
 Vue.component('table-list', require('./components/admin/TableList.vue'));
 
-//form
-Vue.component('cform', require('./components/Form.vue'));
-
-//fields form
-Vue.component('cinput', require('./components/Input.vue'));
-Vue.component('check-box', require('./components/CheckBox.vue'));
-Vue.component('input-date', require('./components/InputDate.vue'));
-Vue.component('ctext-area', require('./components/TextArea.vue'));
-Vue.component('cbutton', require('./components/Button.vue'));
-Vue.component('cselect', require('./components/Select.vue'));
-Vue.component('cupload', require('./components/Upload.vue'));
-Vue.component('ckeditor', require('vue-ckeditor2')); 
-
 Vue.component('calert', require('./components/Alert.vue'));
 Vue.component('modal', require('./components/Modal.vue'));
 Vue.component('modal-bootstrap', require('./components/ModalBootstrap.vue'));
 Vue.component('modal-link', require('./components/ModalLink.vue'));
+Vue.component('title-box', require('./components/TitleBox.vue'));
 
 //Blog Components
 //Vue.component('topblog', require('./components/blog/Top.vue'));

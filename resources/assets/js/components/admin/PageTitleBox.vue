@@ -5,7 +5,7 @@
                 <h4 class="page-title float-left"><i v-bind:class='defineIcon'></i> {{ title }}</h4>
  
                 <ol class="breadcrumb float-right">
-                    <li class="breadcrumb-item"><a href="#">Geral</a></li>
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                     <li class="breadcrumb-item active"> {{ title }}</li>
                 </ol>
 

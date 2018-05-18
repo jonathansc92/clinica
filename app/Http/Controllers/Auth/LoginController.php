@@ -29,7 +29,7 @@ use AuthenticatesUsers;
     protected function redirectTo() {
 
         User::saveLastLogin();
-        return '/admin';
+        return '/';
     }
 
     /**

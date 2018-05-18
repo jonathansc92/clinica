@@ -20,7 +20,8 @@ class PlanosController extends Controller {
 
     function data() {
 
-        return Datatables::of($this->getQuery())
+        $builder = $this->getQuery();
+        return Datatables::of($builder)
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
@@ -33,6 +34,7 @@ class PlanosController extends Controller {
                 <a class="btn btn-primary"  href="/planos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>
                 <a class="btn btn-danger" href="/planos/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
                         })
+                        ->setTotalRecords($builder->count())
                         ->rawColumns(['actions'])->make(true);
     }
 

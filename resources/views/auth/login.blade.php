@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+  
 <div class="account-pages"></div>
 <div class="clearfix"></div>
 <div class="wrapper-page">
@@ -37,9 +37,11 @@
                             <input id="password" type="password" class="form-control" name="password" required>
 
                             @if ($errors->has('password'))
+                            @foreach($erros->all() as $error)
                             <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
+                                <strong>{{ $error }}</strong>
                             </span>
+                            @endforeach
                             @endif
                         </div>
                     </div>
@@ -64,3 +66,22 @@
         </div>
     </div>
 </div>
+        <script src="{{ asset('theme/uplon-admin/js/jquery.min.js') }}"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+//
+    @if ($errors->has('email'))
+        @foreach($errors as $error)
+
+    toastr.warning({!!$error!!}, 'sas');
+    @endforeach
+
+    @endif
+
+    });
+
+
+
+</script>

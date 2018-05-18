@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content') 
 
-<pagetitlebox size='12' title="Lista de {{$displayName}}" icon="user"></pagetitlebox>
+<pagetitlebox size='12' title="Lista de {{$displayName}}" icon="calendar"></pagetitlebox>
 
 <panel size="12">
     <div class='row'>
-        <a href="/pacientes/add/" class='btn btn-success'><i class='fa fa-plus'></i> Adicionar</a>
+        <a class="btn btn-success" href="/agendamentos/add/"><i class='fa fa-plus'></i> Adicionar</a>
     </div>
-    @include('pacientes.table')
+    @include('agendamentos.table')
 </panel>
 
 <script>
     $(document).ready(function () {
 
-        $('#pacientes').DataTable({
+        $('#agendamentos').DataTable({
             select: true,
             "lengthChange": false,
             "language": {
@@ -30,15 +30,13 @@
             },
             "processing": true,
             "serverSide": true,
-            "ajax": '/pacientes/data',
+            "ajax": '/agendamentos/data',
 
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'nome', name: 'nome'},
-                {data: 'sexo', name: 'sexo'},
-                {data: 'd_nascimento', name: 'd_nascimento'},
-                {data: 'cpf', name: 'cpf'},
-                {data: 'id_plano', name: 'tb_plano.descricao'},
+                {data: 'id_paciente', name: 'tb_paciente.nome'},
+                {data: 'data_hora', name: 'data_hora'},
+                {data: 'id_medico', name: 'tb_cadastro_medico.nome'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

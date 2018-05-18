@@ -110,41 +110,7 @@
                     </nav>
                 </div>
 
-                <menudefault>
-
-                    <li class="has_sub">
-                        <a href="/admin" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i><span> Geral </span>
-                        </a>
-                    </li>
-
-                    <li class="has_sub">
-                        <a href="/agendamentos" class="waves-effect"><i class="fa fa-calendar"></i><span> Agendamentos </span>
-                        </a>
-                    </li>
-
-                    <li class="has_sub">
-                        <a href="/especialidades" class="waves-effect"><i class="fa fa-list-alt"></i><span> Especialidades </span>
-                        </a>
-                    </li>
-
-                    <li class="has_sub">
-                        <a href="/medicos" class="waves-effect"><i class="fa fa-user-md"></i><span> Médicos </span>
-                        </a>
-                    </li>
-
-                    <li class="has_sub">
-                        <a href="/pacientes" class="waves-effect"><i class="fa fa-user"></i><span> Pacientes </span>
-                        </a>
-                    </li>
-
-                    <li class="has_sub">
-                        <a href="/planos" class="waves-effect"><i class="fa fa-list-alt"></i><span> Planos </span>
-                        </a>
-                    </li>
-
-
-
-                </menudefault>
+                @include('layouts/menu')
 
                 <page>
 
@@ -161,14 +127,14 @@
         <!-- Scripts  vuejs-->
         <script src="{{ asset('js/app.js') }}"></script>
         <script>
-        var resizefunc = [];
+var resizefunc = [];
         </script>
 
         <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
         <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
         <script>
-        $('textarea').ckeditor();
-        // $('.textarea').ckeditor(); // if class is prefered.
+$('textarea').ckeditor();
+// $('.textarea').ckeditor(); // if class is prefered.
         </script>
 
         <!-- JQuery -->
@@ -209,10 +175,6 @@
 
         <script src="{{ asset('theme/uplon-admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-        <script>
-        $('#flash-overlay-modal').modal();
-        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-        </script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         {!! Toastr::render() !!}
 

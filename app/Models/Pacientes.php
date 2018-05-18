@@ -22,15 +22,24 @@ class Pacientes extends Model {
     public function __construct() {
         
     }
-    
-    public function plano(){
+
+    public function rules() {
+        return [
+            'cpf' => 'required|',
+            'nome' => 'required',
+            'd_nascimento' => 'required',
+            'sexo' => 'required',
+            'plano' => 'required'
+        ];
+    }
+
+    public function plano() {
         return $this->belongsTo(\App\Models\Planos::class, 'id_plano');
     }
 
     public function gridLst() {
         return $this->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano')
-                        ->select('tb_paciente.id','tb_paciente.sexo', 'tb_paciente.cpf', 'tb_paciente.nome', 'tb_paciente.d_nascimento', 'tb_plano.descricao as plano');
+                        ->select('tb_paciente.id', 'tb_paciente.sexo', 'tb_paciente.cpf', 'tb_paciente.nome', 'tb_paciente.d_nascimento', 'tb_plano.descricao as plano');
     }
-
 
 }

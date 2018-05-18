@@ -11,15 +11,9 @@
   |
  */
 
-Route::get('/', function () {
-    return view('site.index');
-});
 
 // -- Login
 Route::get('/login', 'LoginController@index');
-Route::get('/teste', function() {
-    dd(bcrypt('admin'));
-});
 Route::get('/logout', function () {
     Auth::logout();
     return view('auth.login');
@@ -27,7 +21,8 @@ Route::get('/logout', function () {
 
 Auth::routes();
 
-Route::get('/admin', 'IndexController@index');
+// -- Index
+Route::get('/', 'IndexController@index');
 
 // -- Users
 Route::get('/perfil', 'UsersController@edit');
@@ -44,6 +39,8 @@ Route::get('/agendamentos/edit/{id}', 'AgendamentosController@edit');
 Route::post('/agendamentos/update/{id}', 'AgendamentosController@update');
 Route::get('/agendamentos/delete/{id}', 'AgendamentosController@destroy');
 Route::get('/agendamentos/show/{id}', 'AgendamentosController@show');
+Route::get('/agendamentos/relatorio', 'AgendamentosController@relatorio');
+Route::get('/agendamentos/emitirRelatorio', 'AgendamentosController@emitirRelatorio');
 
 // ----------------------- Especialidades
 Route::get('/especialidades', 'EspecialidadesController@index');
