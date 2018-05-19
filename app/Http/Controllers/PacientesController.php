@@ -2,33 +2,25 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
-use App\Http\Requests\CreatePacientesRequest;
-use App\Services\PacientesService;
-use \App\Repositories\PacientesRepository;
-//use App\Http\Requests\UpdatePacientesRequest;
 use Yajra\Datatables\Datatables;
 use App\Models\Pacientes;
 use Toastr;
 
 class PacientesController extends Controller {
-    
-    protected $service;
-    protected $repo;
 
-    public function __construct(PacientesRepository $repo, PacientesService $service) {
+    protected $obj;
+
+    public function __construct(Pacientes $obj) {
         $this->middleware('auth');
-        $this->service = $service;
-        $this->repo = $repo;
+        $this->obj = $obj;
     }
 
     function data() {
 
-        $builder = $this->repo->gridLst();
-        
+        $builder = $this->obj->gridLst();
+
         return Datatables::of($builder)
-                     
                         ->editColumn('d_nascimento', function($rec) {
                             return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
                         })
@@ -62,16 +54,16 @@ class PacientesController extends Controller {
 
     public function store(Request $request) {
         
-        dd($request->all());
-        
-        $data = $this->service->saveOrUpdate($request->all(), null);
+
+     
+        $data = $this->obj->saveOrUpdate($request->all(), null);
 
         Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
         return redirect('/pacientes/edit/' . $data->id);
     }
 
     public function edit($id) {
-        $data = $this->model->find($id);
+        $data = $this->obj->find($id);
         $planos = \App\Models\Planos::pluck('descricao', 'id');
 
         return view('pacientes.edit', compact('data', $data, 'planos', $planos));
@@ -79,17 +71,13 @@ class PacientesController extends Controller {
 
     public function show($id) {
         $pacientes = $this->model->with('plano')->find($id);
-        
+
         return view('pacientes.show', compact('pacientes', $pacientes));
     }
 
     public function update(Request $request, $id) {
-
-        $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-        $request['d_nascimento'] = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-
-        $this->model->find($id)->update($request->all());
-
+        
+        $this->obj->saveOrUpdate($request->all(), $id);
         Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
 
         return redirect()->back();
@@ -97,7 +85,7 @@ class PacientesController extends Controller {
 
     public function destroy($id) {
         try {
-            $this->model->find($id)->delete();
+            $this->obj->find($id)->delete();
             Toastr::success('Removido com sucesso', $title = 'Paciente', $options = []);
         } catch (\Illuminate\Database\QueryException $e) {
             Toastr::error('Não é possível remover. Este dado está sendo usado.', $title = 'Paciente', $options = []);
