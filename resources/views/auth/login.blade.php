@@ -8,7 +8,7 @@
         <div class="card-box mb-0">
             <div class="text-center m-t-20">
                 <a href="#" class="logo">
-                    <i class='fa fa-hospital-o'></i> Clínica
+                    <img width='' height='' src='{{url('/images/logo.png')}}'/>
 <!--                    <span> <img src="{{url('/images/logo_site.png')}}" /></span></a>-->
                 </a>
             </div>

@@ -13,6 +13,7 @@
 
     {!! Form::open(array('url' => '/agendamentos/emitirRelatorio', 'method'=>'GET', 'target'=>'_blank')) !!}
 
+
     <div class='row'>
         <div class="col-md-6">
             <div class='form-group'>

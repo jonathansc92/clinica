@@ -36,7 +36,7 @@
         <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-blur-linear"></i><span>Relatórios </span> <span class="menu-arrow"></span></a>
         <ul>
             <li>
-                <a href="javascript:void(0);"><span>Agendamentos</span></a>
+                <a href="/agendamentos/relatorio"><span>Agendamentos</span></a>
             </li>
         </ul>
     </li>

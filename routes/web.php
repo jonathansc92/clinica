@@ -26,7 +26,7 @@ Route::get('/', 'IndexController@index');
 
 // -- Users
 Route::get('/perfil', 'UsersController@edit');
-Route::post('/user/update', 'UsersController@update');
+Route::post('/user/update/{$id}', 'UsersController@update');
 
 //Route::middleware(['auth'])->prefix('admin')->group(function() {
     

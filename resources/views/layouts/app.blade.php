@@ -49,6 +49,13 @@
 
         <script src="{{ asset('theme/uplon-admin/js/bootstrap.min.js') }}"></script>
 
+        <style>
+            .required:after {
+                content:" *"; 
+                color: red;
+            }
+        </style>
+
 
     </head>
 
@@ -63,8 +70,8 @@
                 <div class="topbar">
 
                     <div class="topbar-left">
-                        <a href="" class="logo">
-                            <span><i class='fa fa-hospital-o'></i> Clínica</span></a>
+                        <a href="/" class="logo">
+                            <span><img width='' height='50' src='{{url('/images/logo.png')}}'/></span></a>
                     </div>
 
                     <nav class="navbar-custom">

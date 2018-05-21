@@ -101,17 +101,19 @@ class AgendamentosController extends Controller {
     }
 
     public function relatorio() {
-        return view('relatorios.relatorio-agendamentosForm');
+        $pacientes = \App\Models\Pacientes::pluck('nome', 'id');
+        return view('relatorios.relatorio-agendamentosForm')->with('pacientes', $pacientes);
     }
 
     public function emitirRelatorio(Request $request) {
 
         $data_inicial = \Carbon\Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('Y-m-d');
         $data_final = \Carbon\Carbon::createFromFormat('d/m/Y', $request->data_final)->format('Y-m-d');
+        $paciente = $request->paciente;
 
         $data = $this->model->with(['medico', 'paciente'])
-                ->whereBetween('data_hora', [$data_inicial, $data_final])
-                ->orderBy('data_hora', 'desc')
+        ->whereBetween('data_hora', [$data_inicial, $data_final])        
+        ->orderBy('data_hora', 'desc')
                 ->get();
 
         return view('relatorios.relatorio-agendamentos')->with('data', $data);

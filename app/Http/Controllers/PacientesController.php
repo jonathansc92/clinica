@@ -54,9 +54,10 @@ class PacientesController extends Controller {
 
     public function store(Request $request) {
         
-
-     
-        $data = $this->obj->saveOrUpdate($request->all(), null);
+//     Pacientes::create($input);
+        $data = $this->obj->saveOrUpdate($request->all());
+        
+        dd($data);
 
         Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
         return redirect('/pacientes/edit/' . $data->id);

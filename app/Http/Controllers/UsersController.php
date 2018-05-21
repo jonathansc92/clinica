@@ -25,7 +25,7 @@ class UsersController extends Controller {
         return view('users.edit', compact('var'));
     }
 
-    public function update(Request $request) {
+    public function update($id,Request $request) {
 
         $data = $request->all();
 
@@ -64,7 +64,7 @@ class UsersController extends Controller {
             }
         }
 
-        $user->first()->update($data);
+        $user->find($id)->update($data);
 
         Toastr::success('Atualizado com sucesso', $title = 'Perfil', $options = []);
         return redirect()->back();

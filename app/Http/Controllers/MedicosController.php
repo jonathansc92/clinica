@@ -9,23 +9,19 @@ use Toastr;
 
 class MedicosController extends Controller {
 
+    protected $obj;
+
     public function __construct(Medicos $obj) {
         $this->middleware('auth');
-        $this->model = $obj;
+        $this->obj = $obj;
     }
 
-    protected function getQuery() {
-        return $this->model->query();
-    }
+    public function data() {
+        $builder = $this->obj->gridLst();
 
-    function data() {
-        
-        return Datatables::of($this->getQuery()->with('especialidade'))
+        return Datatables::of($builder)
                         ->editColumn('d_nascimento', function($rec) {
                             return \Carbon\Carbon::parse($rec->d_nascimento)->format('d/m/Y');
-                        })
-                        ->editColumn('id_especialidade', function($rec) {
-                            return $rec->especialidade->descricao;
                         })
                         ->addColumn('actions', function ($model) {
                             return '
@@ -55,39 +51,38 @@ class MedicosController extends Controller {
     }
 
     public function store(Request $request) {
+//$data = request()->except(['_token']);
+//        $this->model->nome = $request['nome'];
+//        $this->model->cpf = $request['cpf'];
+//        $this->model->crm = $request['crm'];
+//        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
+//        $this->model->sexo = $request['sexo'];
+//        $this->model->id_especialidade = $request['id_especialidade'];
+//        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+//        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
+        $data = $this->obj->saveOrUpdate($request->all());
 
-        $this->model->nome = $request['nome'];
-        $this->model->cpf = $request['cpf'];
-        $this->model->crm = $request['crm'];
-        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-        $this->model->sexo = $request['sexo'];
-        $this->model->id_especialidade = $request['id_especialidade'];
-        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $data = $this->model->save();
+//        $data = Medicos::firstOrCreate($data);
 
         Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
         return redirect('/medicos/edit/' . $data->id);
     }
 
     public function edit($id) {
-        $data = $this->model->find($id);
+        $data = $this->obj->find($id);
         $especialidades = \App\Models\Especialidades::pluck('descricao', 'id');
 
         return view('medicos.edit', compact('data', $data, 'especialidades', $especialidades));
     }
 
     public function show($id) {
-        $data = $this->model->find($id);
+        $data = $this->obj->find($id);
         return view('medicos.show', compact('data', $data));
     }
 
     public function update(Request $request, $id) {
 
-        $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-        $request['d_nascimento'] = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-
-        $this->model->find($id)->update($request->all());
+        $this->obj->saveOrUpdate($request->all(), $id);
 
         Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
 
@@ -96,7 +91,7 @@ class MedicosController extends Controller {
 
     public function destroy($id) {
         try {
-            $this->model->find($id)->delete();
+            $this->obj->find($id)->delete();
             Toastr::success('Removido com sucesso', $title = 'Médico', $options = []);
         } catch (\Illuminate\Database\QueryException $e) {
             Toastr::error('Não é possível remover. Este dado está sendo usado.', $title = 'Médico', $options = []);
