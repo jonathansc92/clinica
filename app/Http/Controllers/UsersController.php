@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Images;
+use App\Libs\Images;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Toastr;
@@ -25,7 +25,9 @@ class UsersController extends Controller {
         return view('users.edit', compact('var'));
     }
 
-    public function update($id,Request $request) {
+    public function update(Request $request, $id) {
+        
+        dd($request);
 
         $data = $request->all();
 

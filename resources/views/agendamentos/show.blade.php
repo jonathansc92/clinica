@@ -1,2 +1,4 @@
-<p><b>Descrição:</b> {{$especialidade->descricao}}</p>
-<p><b>Valor Consulta:</b> R$ {{number_format($especialidade->valor_consulta, 2, ',', '.')}}</p>
+<p><b>Paciente:</b> {{$agendamentos->paciente->nome}}</p>
+<p><b>Médico:</b> {{$agendamentos->medico->nome}}</p>
+<p><b>Horário:</b> {{$agendamentos->data}}</p>
+

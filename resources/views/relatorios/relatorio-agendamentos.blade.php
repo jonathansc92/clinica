@@ -1,6 +1,6 @@
 <link href="{{ asset('theme/uplon-admin/css/bootstrap.min.css') }}" rel="stylesheet">
 <style>
-     #noprint { display:none; } 
+    #noprint { display:none; } 
 </style>
 <div class='container'>
 
@@ -8,7 +8,7 @@
         <div style='float: right'>
             <a href='#' class='btn btn-success' onClick="window.print()" id='noprint'><i class='fa fa-print'></i> Imprimir</a>
         </div>
-        </div>
+    </div>
 
     <table cellpadding='0' cellspacing='0'>
         <tr>
@@ -37,4 +37,11 @@
         @endforeach
 
     </table>
+
+
+</div>
+
+<div style="position:fixed; bottom:100px; margin-left:80%; " class='pull-rigth'>
+    <a href='#' class="btn btn-info"><i class='fa fa-print'></i> Imprimir </a>
+    <a href='#' class="btn btn-success"><i class='fa fa-print'></i> Exportar </a>
 </div>

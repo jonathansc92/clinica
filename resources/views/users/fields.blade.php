@@ -52,6 +52,5 @@
 </div>
 
 <div class="pull-right">
-    <!--<a href='/planos' class='btn btn-danger'> Cancelar</a>-->
     {!! Form::button('Salvar', ['type' => 'submit', 'class' => 'btn btn-primary'] )  !!}
 </div>

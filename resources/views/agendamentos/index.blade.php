@@ -37,6 +37,7 @@
                 {data: 'id_paciente', name: 'tb_paciente.nome'},
                 {data: 'data_hora', name: 'data_hora'},
                 {data: 'id_medico', name: 'tb_cadastro_medico.nome'},
+                {data: 'status', name: 'status'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]
 
         });

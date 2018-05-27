@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Libs;
 
 use Intervention\Image\ImageManagerStatic as Image;
 

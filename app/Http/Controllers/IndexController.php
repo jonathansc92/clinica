@@ -15,6 +15,7 @@ class IndexController extends Controller
         $var['qtdPacientes'] = \App\Models\Pacientes::all()->count();
         $var['qtdPlanos'] = \App\Models\Planos::all()->count();
         $var['qtdEspecialidades'] = \App\Models\Especialidades::all()->count();
+        $var['qtdAgendamentos'] = \App\Models\Agendamentos::all()->count();
         
         return view('index')->with('var', $var);
     }

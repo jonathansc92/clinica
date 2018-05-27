@@ -5,46 +5,50 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Models\Agendamentos;
+use App\Models\Pacientes;
+use App\Models\Medicos;
+use App\Libs\Date;
 use Toastr;
+use App\Constants\Status;
 
 class AgendamentosController extends Controller {
 
-    public function __construct(Agendamentos $obj) {
+    protected $model;
+    protected $medicosLst;
+    protected $pacientesLst;
+
+    public function __construct(Agendamentos $obj, Pacientes $pacientes, Medicos $medicos) {
         $this->middleware('auth');
         $this->model = $obj;
+        $this->medicosLst = $medicos->pluck('nome', 'id');
+        $this->pacientesLst = $pacientes->pluck('nome', 'id');
     }
+    
+    public function data() {
 
-    protected function getQuery() {
-        return $this->model->query();
-    }
-
-    function data() {
-
-        $builder = $this->getQuery();
-        $builder->select(
-                        'tb_agendamento.id', 'data_hora', 'tb_paciente.nome as id_paciente', 'tb_cadastro_medico.nome as id_medico'
-                )
-                ->join('tb_paciente', 'tb_paciente.id', '=', 'tb_agendamento.id_paciente')
-                ->join('tb_cadastro_medico', 'tb_cadastro_medico.id', '=', 'tb_agendamento.id_medico');
+        $builder = $this->model->gridLst();
 
         return Datatables::of($builder)
                         ->editColumn('data_hora', function($rec) {
-                            return \Carbon\Carbon::parse($rec->data_hora)->format('d/m/Y h:i');
+                            return Date::dateTimeBR($rec->data_hora);
                         })
+                        ->editColumn('status', function($rec) {
+                            return Status::getStatusWithStyle($rec->status);
+                        })
+                        
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
-                data-title="Especialidade" 
+                data-title="Agendamento" 
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
                 data-url="/agendamentos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>
                 
-                <a class="btn btn-primary" href="/agendamentos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>
-                 <a class="btn btn-danger" href="/agendamentos/delete/' . $model->id . '"><i class="fa fa-trash"></i> </a>';
+                <a class="btn btn-primary" href="/agendamentos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>';
                         })
                         ->setTotalRecords($builder->count())
-                        ->rawColumns(['actions'])->make(true);
+                        ->rawColumns(['actions', 'status'])->make(true);
     }
 
     public function index() {
@@ -54,39 +58,46 @@ class AgendamentosController extends Controller {
 
     public function add() {
 
-        return view('especialidades.add');
+        $pacientes = $this->pacientesLst;
+        $medicos = $this->medicosLst;
+        return view('agendamentos.add')
+                        ->with('pacientes', $pacientes)
+                        ->with('medicos', $medicos);
     }
 
     public function store(Request $request) {
+        
+        $agendamento = $this->model->saveOrUpdate($request->all());
+        
+        dd($agendamento);
 
-        $this->model->descricao = $request['descricao'];
-        $this->model->valor_consulta = $request['valor_consulta'];
-        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $especialidade = $this->model->save();
-
-        Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
-        return redirect('/especialidades/edit/' . $especialidade->id);
+        Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
+        return redirect('/agendamentos/edit/' . $especialidade->id);
     }
 
     public function edit($id) {
-        $especialidades = $this->model->find($id);
+        $agendamentos = $this->model->find($id);
 
-        return view('especialidades.edit', compact('especialidades', $especialidades));
+        $pacientes = $this->pacientesLst;
+        $medicos = $this->medicosLst;
+
+        return view('agendamentos.edit', compact('agendamentos', $agendamentos))
+                        ->with('pacientes', $pacientes)
+                        ->with('medicos', $medicos);
     }
 
     public function show($id) {
-        $especialidade = $this->model->find($id);
-        return view('especialidades.show', compact('especialidade', $especialidade));
+        $agendamentos = $this->model->with(['paciente','medico'])->find($id);
+                
+        return view('agendamentos.show', compact('agendamentos', $agendamentos));
     }
 
     public function update(Request $request, $id) {
 
-        $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
+        $this->model->saveOrUpdate($request->all(), $id);
 
-        $this->model->find($id)->update($request->all());
-
-        Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
+        Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
+        
         return redirect()->back();
     }
 
@@ -107,13 +118,12 @@ class AgendamentosController extends Controller {
 
     public function emitirRelatorio(Request $request) {
 
-        $data_inicial = \Carbon\Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('Y-m-d');
-        $data_final = \Carbon\Carbon::createFromFormat('d/m/Y', $request->data_final)->format('Y-m-d');
-        $paciente = $request->paciente;
-
+        $data_inicial = Date::convertBRToUSA($request->data_inicial);
+        $data_final = Date::convertBRToUSA($request->data_final);
+        
         $data = $this->model->with(['medico', 'paciente'])
-        ->whereBetween('data_hora', [$data_inicial, $data_final])        
-        ->orderBy('data_hora', 'desc')
+                ->whereBetween('data', [$data_inicial, $data_final])
+                ->orderBy('data', 'desc')
                 ->get();
 
         return view('relatorios.relatorio-agendamentos')->with('data', $data);

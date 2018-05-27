@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libs\Date;
+use App\Models\Medicos;
+use App\Models\Pacientes;
 
 class Agendamentos extends Model {
 
@@ -21,13 +24,39 @@ class Agendamentos extends Model {
     public function __construct() {
         
     }
-    
-    public function medico(){
-        return $this->belongsTo(\App\Models\Medicos::class, 'id_medico');
+
+    public function medico() {
+        return $this->belongsTo(Medicos::class, 'id_medico');
+    }
+
+    public function paciente() {
+        return $this->belongsTo(Pacientes::class, 'id_paciente');
     }
     
-    public function paciente(){
-        return $this->belongsTo(\App\Models\Pacientes::class, 'id_paciente');
+    public function gridLst(){
+      return $this->select(
+                        'tb_agendamento.id', 'data', 'tb_paciente.nome as id_paciente', 'tb_cadastro_medico.nome as id_medico', 'tb_agendamento.status'
+                )
+                ->join('tb_paciente', 'tb_paciente.id', '=', 'tb_agendamento.id_paciente')
+                ->join('tb_cadastro_medico', 'tb_cadastro_medico.id', '=', 'tb_agendamento.id_medico');
+    }
+
+    public function saveOrUpdate($pData, $pId = null) {
+
+        $pData['updated_at'] = Date::dateTimeNow();
+        $pData['data_hora'] = Date::formatUSA($pData['data_hora']);
+
+        if ($pId != null) {
+            Agendamentos::find($pId)->update($pData);
+        } else {
+            $agendamentos = new Agendamentos();
+            $agendamentos->created_at = Date::dateTimeNow();
+            $agendamentos->id_medico = $pData['id_medico'];
+            $agendamentos->id_paciente = $pData['id_paciente'];
+            $agendamentos->status = $pData['status'];
+            $pac = $agendamentos->save();
+            return $pac->id;
+        }
     }
 
 }

@@ -5,7 +5,8 @@
             <th>ID</th>
             <th>Paciente</th>
             <th>Data/Hora</th>
-            <th>Medico</th>
+            <th>Médico</th>
+            <th>Status</th>
             <th>#</th>
         </tr>
     </thead>

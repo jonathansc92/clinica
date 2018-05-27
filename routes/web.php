@@ -26,7 +26,7 @@ Route::get('/', 'IndexController@index');
 
 // -- Users
 Route::get('/perfil', 'UsersController@edit');
-Route::post('/user/update/{$id}', 'UsersController@update');
+Route::get('/usuario/atualizarPerfil/{$id}', 'UsersController@update');
 
 //Route::middleware(['auth'])->prefix('admin')->group(function() {
     
@@ -34,7 +34,7 @@ Route::post('/user/update/{$id}', 'UsersController@update');
 Route::get('/agendamentos', 'AgendamentosController@index');
 Route::get('/agendamentos/data', 'AgendamentosController@data');
 Route::get('/agendamentos/add', 'AgendamentosController@add');
-Route::post('/plaagendamentosnos/store', 'AgendamentosController@store');
+Route::post('/agendamentos/store', 'AgendamentosController@store');
 Route::get('/agendamentos/edit/{id}', 'AgendamentosController@edit');
 Route::post('/agendamentos/update/{id}', 'AgendamentosController@update');
 Route::get('/agendamentos/delete/{id}', 'AgendamentosController@destroy');
