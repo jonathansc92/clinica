@@ -8,7 +8,6 @@
 
     {!! Form::file('img', $attributes = array()) !!}
 
-
 </div>
 
 <div class="row">

@@ -41,7 +41,8 @@ class User extends Authenticatable {
                     'name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255|unique:users',
                     'password' => 'required|string|min:6|confirmed',
-                    'confirm_password' => 'required|same:password'
+                    'confirm_password' => 'required|same:password',
+                    'img'=>'image|mimes:jpeg,jpg|max:2048',
         ]);
     }
 

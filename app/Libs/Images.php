@@ -15,6 +15,7 @@ class Images {
     }
 
     public static function newNameImage($pName) {
+        dd($pName);
         return md5($pName->getClientOriginalName() . time()) . '.' . $pName->getClientOriginalExtension();
     }
 

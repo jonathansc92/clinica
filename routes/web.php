@@ -26,7 +26,7 @@ Route::get('/', 'IndexController@index');
 
 // -- Users
 Route::get('/perfil', 'UsersController@edit');
-Route::get('/usuario/atualizarPerfil/{$id}', 'UsersController@update');
+Route::post('/usuario/atualizarPerfil/{id}', 'UsersController@update');
 
 //Route::middleware(['auth'])->prefix('admin')->group(function() {
     

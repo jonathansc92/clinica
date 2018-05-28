@@ -26,8 +26,6 @@ class UsersController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        
-        dd($request);
 
         $data = $request->all();
 
@@ -47,23 +45,29 @@ class UsersController extends Controller {
             }
         }
 
+        dd(Input::file());
 
-        if (isset($data['img'])) {
-            $imgname = null;
-            $img = Input::file('img');
-            if (request()->hasFile('img')) {
+        $imgName = null;
+        if (request()->hasFile('img')) {
 
-                $userImg = User::first();
-                if (!empty($userImg->img)) {
-                    File::delete(public_path('images/perfil/' . $userImg->img));
-                }
-                $imgname = Images::newNameImage($img);
+            dd('entrou');
+
+            $image = request()->file('img');
+
+
+            $userImg = User::find($this->obj->getUserId());
+            if (!empty($userImg->img)) {
+                File::delete(public_path('images/perfil/' . $userImg->img));
+            }
+            $imgName = Images::newNameImage($image);
+
+            dd($imgname);
+
 
 //             Upload Image
-                Images::upload($imgname, $img, 200, 200, 'images/perfil/');
+            Images::upload($imgName, $image, 200, 200, 'images/perfil/');
 
-                $data['img'] = $imgname;
-            }
+            $data['img'] = $imgname;
         }
 
         $user->find($id)->update($data);
