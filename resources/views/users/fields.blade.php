@@ -6,7 +6,8 @@
     </div>
     @endif
 
-    {!! Form::file('img', $attributes = array()) !!}
+    <input  type="file" name="img" />
+    
 
 </div>
 

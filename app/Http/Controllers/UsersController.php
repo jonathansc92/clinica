@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Libs\Images;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\File;
 use Toastr;
 
 class UsersController extends Controller {
@@ -44,16 +43,11 @@ class UsersController extends Controller {
                 }
             }
         }
-
-        dd(Input::file());
-
+        
         $imgName = null;
         if (request()->hasFile('img')) {
 
-            dd('entrou');
-
             $image = request()->file('img');
-
 
             $userImg = User::find($this->obj->getUserId());
             if (!empty($userImg->img)) {
@@ -61,13 +55,10 @@ class UsersController extends Controller {
             }
             $imgName = Images::newNameImage($image);
 
-            dd($imgname);
-
-
 //             Upload Image
             Images::upload($imgName, $image, 200, 200, 'images/perfil/');
 
-            $data['img'] = $imgname;
+            $data['img'] = $imgName;
         }
 
         $user->find($id)->update($data);

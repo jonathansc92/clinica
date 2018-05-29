@@ -5,7 +5,7 @@
 
 <panel size="12">
 
-    {!! Form::open(['url' => '/usuario/atualizarPerfil/'.$var['user']->id]) !!}
+    {!! Form::open(['url' => '/usuario/atualizarPerfil/'.$var['user']->id, 'enctype'=>'multipart/form-data']) !!}
 
        @include('users/fields')
 
