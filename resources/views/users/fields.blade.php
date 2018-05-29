@@ -6,8 +6,7 @@
     </div>
     @endif
 
-    <input  type="file" name="img" />
-    
+    {{ Form::file('img') }}    
 
 </div>
 
