@@ -69,10 +69,8 @@ class AgendamentosController extends Controller {
         
         $agendamento = $this->model->saveOrUpdate($request->all());
         
-        dd($agendamento);
-
         Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
-        return redirect('/agendamentos/edit/' . $especialidade->id);
+        return redirect('/agendamentos/edit/' . $agendamento);
     }
 
     public function edit($id) {
@@ -121,10 +119,12 @@ class AgendamentosController extends Controller {
         $data_inicial = Date::convertBRToUSA($request->data_inicial);
         $data_final = Date::convertBRToUSA($request->data_final);
         
-        $data = $this->model->with(['medico', 'paciente'])
+        $data = $this->model->with(['medico', 'paciente', 'especialidade'])
                 ->whereBetween('data', [$data_inicial, $data_final])
                 ->orderBy('data', 'desc')
                 ->get();
+        
+        dd($data);
 
         return view('relatorios.relatorio-agendamentos')->with('data', $data);
     }

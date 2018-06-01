@@ -53,14 +53,10 @@ class PacientesController extends Controller {
     }
 
     public function store(Request $request) {
-        
-//     Pacientes::create($input);
         $data = $this->obj->saveOrUpdate($request->all());
-        
-        dd($data);
 
         Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
-        return redirect('/pacientes/edit/' . $data->id);
+        return redirect('/pacientes/edit/' . $data);
     }
 
     public function edit($id) {
@@ -71,7 +67,7 @@ class PacientesController extends Controller {
     }
 
     public function show($id) {
-        $pacientes = $this->model->with('plano')->find($id);
+        $pacientes = $this->obj->with('plano')->find($id);
 
         return view('pacientes.show', compact('pacientes', $pacientes));
     }

@@ -38,7 +38,6 @@
             "ajax": '/planos/data',
 
             columns: [
-                {data: 'id', name: 'id'},
                 {data: 'descricao', name: 'descricao'},
                 {data: 'cnpj', name: 'cnpj'},
                 {data: 'contato', name: 'contato'},

@@ -38,7 +38,6 @@
             "ajax": '/medicos/data',
 
             columns: [
-                {data: 'id', name: 'id'},
                 {data: 'crm', name: 'crm'},
                 {data: 'nome', name: 'nome'},
                 {data: 'd_nascimento', name: 'd_nascimento'},

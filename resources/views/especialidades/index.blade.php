@@ -33,7 +33,6 @@
             "ajax": '/especialidades/data',
 
             columns: [
-                {data: 'id', name: 'id'},
                 {data: 'descricao', name: 'descricao'},
                 {data: 'valor_consulta', name: 'valor_consulta'},
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}]

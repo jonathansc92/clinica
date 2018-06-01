@@ -2,7 +2,6 @@
 
     <thead>
         <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Sexo</th>
             <th>Data de Nascimento</th>

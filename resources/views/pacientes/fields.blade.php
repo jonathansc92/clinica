@@ -31,7 +31,7 @@
     <div class="col-md-6">
         <div class='form-group'>
             {!!Form::label('d_nascimento', 'Data de Nascimento', ['class'=>'required'])!!}
-            {!! Form::text('d_nascimento', isset($data->d_nascimento)?$data->d_nascimento:null,['required'=>'required','class'=>'datepicker form-control']) !!}
+            {!! Form::text('d_nascimento', isset($data->d_nascimento)?Carbon\Carbon::parse($data->d_nascimento)->format('d/m/Y'):null,['required'=>'required','class'=>'datepicker form-control']) !!}
         </div>
     </div>
 

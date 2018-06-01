@@ -33,7 +33,6 @@
             "ajax": '/agendamentos/data',
 
             columns: [
-                {data: 'id', name: 'id'},
                 {data: 'id_paciente', name: 'tb_paciente.nome'},
                 {data: 'data_hora', name: 'data_hora'},
                 {data: 'id_medico', name: 'tb_cadastro_medico.nome'},

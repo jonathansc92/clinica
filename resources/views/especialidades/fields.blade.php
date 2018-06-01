@@ -1,18 +1,14 @@
-@if(isset($planos->id))
-{!! Form::hidden('id', $planos->id) !!}
-@endif
-
 <div class="row">
     <div class='col-md-6'>
         <div class='form-group'>
-            {!!Form::label('descricao', 'Descrição')!!}
+            {!!Form::label('descricao', 'Descrição', ['class'=>'required'])!!}
             {!! Form::text('descricao', isset($especialidades->descricao)?$especialidades->descricao:null, ['required'=>'required','class' => 'form-control']) !!}
         </div>
     </div>
 
     <div class='col-md-6'>
         <div class='form-group'>
-            {!!Form::label('valor_consulta', 'Valor da Consulta')!!}
+            {!!Form::label('valor_consulta', 'Valor da Consulta', ['class'=>'required'])!!}
             {!! Form::number('valor_consulta', isset($especialidades->valor_consulta)?$especialidades->valor_consulta:null, ['required'=>'required','class' => 'form-control']) !!}
         </div>
     </div>

@@ -2,7 +2,6 @@
 
     <thead>
         <tr>
-            <th>ID</th>
             <th>Descrição</th>
             <th>CNPJ</th>
             <th>Contato</th>

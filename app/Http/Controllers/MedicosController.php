@@ -51,21 +51,11 @@ class MedicosController extends Controller {
     }
 
     public function store(Request $request) {
-//$data = request()->except(['_token']);
-//        $this->model->nome = $request['nome'];
-//        $this->model->cpf = $request['cpf'];
-//        $this->model->crm = $request['crm'];
-//        $this->model->d_nascimento = \Carbon\Carbon::parse($request['d_nascimento'])->format('Y-m-d');
-//        $this->model->sexo = $request['sexo'];
-//        $this->model->id_especialidade = $request['id_especialidade'];
-//        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-//        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
+
         $data = $this->obj->saveOrUpdate($request->all());
 
-//        $data = Medicos::firstOrCreate($data);
-
         Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
-        return redirect('/medicos/edit/' . $data->id);
+        return redirect('/medicos/edit/' . $data);
     }
 
     public function edit($id) {

@@ -2,7 +2,6 @@
 
     <thead>
         <tr>
-            <th>ID</th>
             <th>Paciente</th>
             <th>Data/Hora</th>
             <th>Médico</th>

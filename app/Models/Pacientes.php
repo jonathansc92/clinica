@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libs\Date;
 
 class Pacientes extends Model {
 
@@ -34,36 +35,27 @@ class Pacientes extends Model {
     }
 
     public function saveOrUpdate($pData, $pId = null) {
-        
-        $dateNow = \Carbon\Carbon::now()->toDateTimeString();
-        
-        $pData['updated_at'] = $dateNow;
-       
+
+        $pData['updated_at'] = Date::dateTimeNow();
+
         $pData['d_nascimento'] = \Carbon\Carbon::parse($pData['d_nascimento'])->format('Y-m-d');
-        
+
         if ($pId != null) {
-             Pacientes::find($pId)->update($pData);
+            Pacientes::find($pId)->update($pData);
         } else {
             $paciente = new Pacientes();
-            $paciente->created_at = $dateNow;
-//            $paciente->d_nascimento = $pData['d_nascimento'];
-            $paciente->created_at = $dateNow;
+            $paciente->created_at = Date::dateTimeNow();
             $paciente->id_plano = $pData['id_plano'];
             $paciente->nome = $pData['nome'];
-          $pac = $paciente->save();
-          return $pac;
+            $paciente->save();
+            return $paciente->id;
         }
     }
 
     public function gridLst() {
         return $this->select(
-                        'tb_paciente.id', 
-                        'cpf', 
-                        'nome', 
-                        'd_nascimento', 
-                        'sexo', 
-                        'tb_plano.descricao as id_plano')
-                        ->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano');
+                                'tb_paciente.id', 'cpf', 'nome', 'd_nascimento', 'sexo', 'tb_plano.descricao as id_plano')
+                        ->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano')->OrderBy('nome', 'ASC');
     }
 
     public function plano() {

@@ -4,7 +4,7 @@
 <pagetitlebox size='12' title="Editar Plano" icon="edit"></pagetitlebox>
 
 <panel size="12">
-{!! Form::open(['url' => '/planos/update/'. $planos->id, 'id'=>'formModal']) !!}
+{!! Form::open(['url' => '/planos/update/'. $planos->id, 'id'=>'form']) !!}
     @include('planos.fields')
 {!! Form::close() !!}
 

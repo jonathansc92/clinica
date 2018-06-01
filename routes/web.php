@@ -14,15 +14,16 @@
 
 // -- Login
 Route::get('/login', 'LoginController@index');
-Route::get('/logout', function () {
+Route::get('/', function () {
     Auth::logout();
+    Toastr::success('Deslogado', $title = '', $options = []);
     return view('auth.login');
 });
 
 Auth::routes();
 
 // -- Index
-Route::get('/', 'IndexController@index');
+Route::get('/home', 'IndexController@index');
 
 // -- Users
 Route::get('/perfil', 'UsersController@edit');

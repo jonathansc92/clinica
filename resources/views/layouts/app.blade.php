@@ -95,10 +95,10 @@
                                     </div>
 
                                     <a href="/perfil" class="dropdown-item notify-item">
-                                        <i class="zmdi zmdi-account-circle"></i> <span>Profile</span>
+                                        <i class="zmdi zmdi-account-circle"></i> <span>Perfil</span>
                                     </a>
 
-                                    <a href="/logout" class="dropdown-item notify-item">
+                                    <a href="/" class="dropdown-item notify-item">
                                         <i class="zmdi zmdi-power"></i> <span>Sair</span>
                                     </a>
                                 </div>

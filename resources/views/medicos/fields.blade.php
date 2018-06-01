@@ -1,6 +1,4 @@
-@if(isset($data->id))
-{!! Form::hidden('id', $data->id) !!}
-@endif
+<link href="{{ asset('theme/uplon-admin/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 
 <div class='row'>
     <div class="col-md-6">
@@ -40,7 +38,7 @@
     <div class="col-md-6">
         <div class='form-group'>
             {!!Form::label('d_nascimento', 'Data de Nascimento', ['class'=>'required'])!!}
-            {!! Form::date('d_nascimento', isset($data->d_nascimento)?$data->d_nascimento:null,['required'=>'required','class'=>'form-control']) !!}
+            {!! Form::text('d_nascimento', isset($data->d_nascimento)?Carbon\Carbon::parse($data->d_nascimento)->format('d/m/Y'):null,['required'=>'required','class'=>'datepicker form-control']) !!}
         </div>
     </div>
 
@@ -56,3 +54,19 @@
     <a href='/medicos' class='btn btn-danger'> Cancelar</a>
     {!! Form::button('Salvar', ['type' => 'submit', 'class' => 'btn btn-primary'] )  !!}
 </div>
+
+<script src="{{ asset('theme/uplon-admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+<script>
+
+$(document).ready(function () {
+//    $.datepicker.setDefaults($.datepicker.regional['pt-br']);
+// Date Picker
+    $('.datepicker').datepicker({
+        format: "dd/mm/yyyy",
+
+        locale: 'pt-br'
+    });
+
+});
+</script>

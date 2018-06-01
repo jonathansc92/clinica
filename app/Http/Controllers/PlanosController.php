@@ -8,6 +8,8 @@ use App\Models\Planos;
 use Toastr;
 
 class PlanosController extends Controller {
+    
+    protected $model;
 
     public function __construct(Planos $plano) {
         $this->middleware('auth');
@@ -21,6 +23,11 @@ class PlanosController extends Controller {
     function data() {
 
         $builder = $this->getQuery();
+        $builder->select(
+                'id',
+                'descricao',
+                'cnpj',
+                'contato')->OrderBy('descricao', 'ASC');
         return Datatables::of($builder)
                         ->addColumn('actions', function ($model) {
                             return '
@@ -49,16 +56,12 @@ class PlanosController extends Controller {
     }
 
     public function store(Request $request) {
-        $this->model->descricao = $request['descricao'];
-        $this->model->cnpj = $request['cnpj'];
-        $this->model->contato = $request['contato'];
-        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $planos = $this->model->save();
+        
+       $planos = $this->model->saveOrUpdate($request->all(), null);
 
         Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
 
-        return redirect('/planos/edit/' . $planos->id);
+        return redirect('/planos/edit/' . $planos);
     }
 
     public function edit($id) {
@@ -74,9 +77,7 @@ class PlanosController extends Controller {
 
     public function update(Request $request, $id) {
 
-        $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-
-        $this->model->find($id)->update($request->all());
+        $this->model->saveOrUpdate($request->all(), $id);
 
         Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
 

@@ -5,7 +5,7 @@
 
 <panel size="12">
 
-{!! Form::open(['url' => '/planos/store', 'id'=>'formModal']) !!}
+{!! Form::open(['url' => '/planos/store', 'id'=>'form']) !!}
     @include('planos.fields')
 {!! Form::close() !!}
 

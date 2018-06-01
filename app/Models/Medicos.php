@@ -31,7 +31,7 @@ class Medicos extends Model {
     public function gridLst() {
         return $this->select(
                         'tb_cadastro_medico.id', 'tb_cadastro_medico.crm', 'tb_cadastro_medico.cpf', 'tb_cadastro_medico.d_nascimento', 'tb_cadastro_medico.nome', 'tb_especialidade.descricao as id_especialidade'
-                )->join('tb_especialidade', 'tb_especialidade.id', '=', 'tb_cadastro_medico.id_especialidade');
+                )->join('tb_especialidade', 'tb_especialidade.id', '=', 'tb_cadastro_medico.id_especialidade')->OrderBy('tb_cadastro_medico.nome', 'ASC');
     }
 
     public function saveOrUpdate($pData, $pId = null) {
@@ -45,8 +45,6 @@ class Medicos extends Model {
         if ($pId != null) {
             Medicos::find($pId)->update($pData);
         } else {
-            
-//            dd($pData);
             $medicos = new Medicos();
             $medicos->nome = $pData['nome'];
             $medicos->cpf = $pData['cpf'];
@@ -57,6 +55,7 @@ class Medicos extends Model {
             $medicos->updated_at = $dateNow;
             $medicos->created_at = $dateNow;
             $medicos->save();
+            return $medicos->id;
         }
     }
 

@@ -8,6 +8,8 @@ use App\Models\Especialidades;
 use Toastr;
 
 class EspecialidadesController extends Controller {
+    
+    protected $model;
 
     public function __construct(Especialidades $obj) {
         $this->middleware('auth');
@@ -20,7 +22,10 @@ class EspecialidadesController extends Controller {
 
     function data() {
 
-        return Datatables::of($this->getQuery())
+        $builder = $this->getQuery();
+        $builder->select('id', 'descricao', 'valor_consulta')->OrderBy('descricao', 'ASC');
+        
+        return Datatables::of($builder)
                         ->editColumn('valor_consulta', function($rec) {
                             return number_format($rec->valor_consulta, 2, ',', '.');
                         })
@@ -51,14 +56,10 @@ class EspecialidadesController extends Controller {
 
     public function store(Request $request) {
 
-        $this->model->descricao = $request['descricao'];
-        $this->model->valor_consulta = $request['valor_consulta'];
-        $this->model->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        $this->model->created_at = \Carbon\Carbon::now()->toDateTimeString();
-        $especialidade = $this->model->save();
+       $data = $this->model->saveOrUpdate($request->all(), null);
 
         Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
-        return redirect('/especialidades/edit/' . $especialidade->id);
+        return redirect('/especialidades/edit/' . $data);
     }
 
     public function edit($id) {
@@ -74,9 +75,7 @@ class EspecialidadesController extends Controller {
 
     public function update(Request $request, $id) {
 
-        $request['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-
-        $this->model->find($id)->update($request->all());
+        $data = $this->model->saveOrUpdate($request->all(), $id);
 
         Toastr::success('Salvo com sucesso', $title = 'Especialidade', $options = []);
         return redirect()->back();

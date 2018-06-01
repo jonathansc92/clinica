@@ -1,7 +1,7 @@
 <menudefault>
 
     <li class="has_sub">
-        <a href="/" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span>
+        <a href="/home" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span>
         </a>
     </li>
 
@@ -26,7 +26,7 @@
     </li>
 
     <li class="has_sub">
-        <a href="/planos" class="waves-effect"><i class="fa fa-list-alt"></i><span> Planos </span>
+        <a href="/planos" class="waves-effect"><i class="fa fa-heartbeat"></i><span> Planos </span>
         </a>
     </li>
 

@@ -33,7 +33,6 @@
             "ajax": '/pacientes/data',
 
             columns: [
-                {data: 'id', name: 'id'},
                 {data: 'nome', name: 'nome'},
                 {data: 'sexo', name: 'sexo'},
                 {data: 'd_nascimento', name: 'd_nascimento'},
