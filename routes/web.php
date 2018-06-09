@@ -42,6 +42,7 @@ Route::get('/agendamentos/delete/{id}', 'AgendamentosController@destroy');
 Route::get('/agendamentos/show/{id}', 'AgendamentosController@show');
 Route::get('/agendamentos/relatorio', 'AgendamentosController@relatorio');
 Route::get('/agendamentos/emitirRelatorio', 'AgendamentosController@emitirRelatorio');
+Route::get('/agendamentos/download/{data_inicial}/{data_final}', 'AgendamentosController@download');
 
 // ----------------------- Especialidades
 Route::get('/especialidades', 'EspecialidadesController@index');

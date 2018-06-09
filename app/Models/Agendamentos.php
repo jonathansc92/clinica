@@ -29,9 +29,9 @@ class Agendamentos extends Model {
         return $this->belongsTo(Medicos::class, 'id_medico');
     }
     
-    public function especialidade() {
-        return $this->medico()->especialidade();
-    }
+//    public function especialidade() {
+//        return $this->medico()->especialidade();
+//    }
 
     public function paciente() {
         return $this->belongsTo(Pacientes::class, 'id_paciente');
@@ -61,6 +61,16 @@ class Agendamentos extends Model {
             $agendamentos->save();
             return $agendamentos->id;
         }
+    }
+    
+    public function agendamentosByDate($pDateInitial, $pDataEnd){
+        
+//        dd($data_inicial);
+                        
+        return Agendamentos::with(['medico', 'paciente'])
+                ->whereBetween('data', [$pDateInitial, $pDataEnd])
+                ->orderBy('data', 'desc')
+                ->get();
     }
 
 }

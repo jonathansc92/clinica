@@ -35,7 +35,7 @@
             <td>{{\Carbon\Carbon::parse($agendamento->data)->format('d/m/Y')}}</td>
             <td>{{$agendamento->paciente->nome}}</td>
             <td>{{$agendamento->medico->nome}}</td>
-            <td>{{$agendamento->medico->especialidade->valor}}</td>
+            <td>{{Carbon\Carbon::parse(Request::get('data_inicial'))->format('Y-m-d')}}</td>
         </tr>
         @endforeach
 
@@ -45,6 +45,5 @@
 </div>
 
 <div style="position:fixed; bottom:100px; margin-left:80%; " class='pull-rigth'>
-    <a href='#' class="btn btn-info"><i class='fa fa-print'></i> Imprimir </a>
-    <a href='#' class="btn btn-success"><i class='fa fa-print'></i> Exportar </a>
+    <a href='/agendamentos/download/{{str_replace('/', '-',Request::get('data_inicial'))}}/{{str_replace('/', '-',Request::get('data_final'))}}' class="btn btn-success"><i class='fa fa-print'></i> Baixar Relatório </a>
 </div>

@@ -10,20 +10,27 @@ use App\Models\Medicos;
 use App\Libs\Date;
 use Toastr;
 use App\Constants\Status;
+use App\Http\Reports\AgendamentosReports;
 
 class AgendamentosController extends Controller {
 
     protected $model;
     protected $medicosLst;
     protected $pacientesLst;
+    protected $data_inicial;
+    protected $data_final;
+    protected $reports;
 
     public function __construct(Agendamentos $obj, Pacientes $pacientes, Medicos $medicos) {
         $this->middleware('auth');
+
         $this->model = $obj;
         $this->medicosLst = $medicos->pluck('nome', 'id');
         $this->pacientesLst = $pacientes->pluck('nome', 'id');
+
+        $this->reports = new AgendamentosReports($this->model);
     }
-    
+
     public function data() {
 
         $builder = $this->model->gridLst();
@@ -35,7 +42,6 @@ class AgendamentosController extends Controller {
                         ->editColumn('status', function($rec) {
                             return Status::getStatusWithStyle($rec->status);
                         })
-                        
                         ->addColumn('actions', function ($model) {
                             return '
                         <button id="getModal" class="btn btn-info" 
@@ -66,9 +72,9 @@ class AgendamentosController extends Controller {
     }
 
     public function store(Request $request) {
-        
+
         $agendamento = $this->model->saveOrUpdate($request->all());
-        
+
         Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
         return redirect('/agendamentos/edit/' . $agendamento);
     }
@@ -85,8 +91,8 @@ class AgendamentosController extends Controller {
     }
 
     public function show($id) {
-        $agendamentos = $this->model->with(['paciente','medico'])->find($id);
-                
+        $agendamentos = $this->model->with(['paciente', 'medico'])->find($id);
+
         return view('agendamentos.show', compact('agendamentos', $agendamentos));
     }
 
@@ -95,7 +101,7 @@ class AgendamentosController extends Controller {
         $this->model->saveOrUpdate($request->all(), $id);
 
         Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
-        
+
         return redirect()->back();
     }
 
@@ -116,17 +122,13 @@ class AgendamentosController extends Controller {
 
     public function emitirRelatorio(Request $request) {
 
-        $data_inicial = Date::convertBRToUSA($request->data_inicial);
-        $data_final = Date::convertBRToUSA($request->data_final);
+        return $this->reports->geraRelatorio($request->data_inicial,$request->data_final);
         
-        $data = $this->model->with(['medico', 'paciente', 'especialidade'])
-                ->whereBetween('data', [$data_inicial, $data_final])
-                ->orderBy('data', 'desc')
-                ->get();
-        
-        dd($data);
+    }
 
-        return view('relatorios.relatorio-agendamentos')->with('data', $data);
+    public function download(Request $request) {
+
+        return $this->reports->doPdf($request->data_inicial,$request->data_final);
     }
 
 }
