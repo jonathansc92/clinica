@@ -28,7 +28,6 @@ class AgendamentosReports {
 
     public function doPdf($pDateInitial, $pDateEnd) {
         
-        dd(pathinfo('p'));
         
         $data = $this->obj->agendamentosByDate(\Carbon\Carbon::createFromFormat('d-m-Y',$pDateInitial), \Carbon\Carbon::createFromFormat('d-m-Y',$pDateEnd));
 
