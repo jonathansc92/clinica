@@ -159,6 +159,8 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         'Kamaln7\Toastr\ToastrServiceProvider',
         Barryvdh\DomPDF\ServiceProvider::class,
+		Way\Generators\GeneratorsServiceProvider::class,
+		Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
