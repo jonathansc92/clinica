@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libs\ValidatorCPFCNPJ;
 
 class Medicos extends Model {
 
@@ -35,13 +36,21 @@ class Medicos extends Model {
     }
 
     public function saveOrUpdate($pData, $pId = null) {
+        
+        $validacpf = new ValidatorCPFCNPJ($pData['cpf']);
+            
+        if($validacpf->validate_cpf() == false){
+            return false;
+        }
+        
+        $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
 
         $dateNow = \Carbon\Carbon::now()->toDateTimeString();
 
         $pData['updated_at'] = $dateNow;
 
         $pData['d_nascimento'] = \Carbon\Carbon::parse($pData['d_nascimento'])->format('Y-m-d');
-
+        
         if ($pId != null) {
             Medicos::find($pId)->update($pData);
         } else {

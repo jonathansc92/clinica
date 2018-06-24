@@ -36,10 +36,17 @@ class Pacientes extends Model {
 
     public function saveOrUpdate($pData, $pId = null) {
 
+        $validacpf = new ValidatorCPFCNPJ($pData['cpf']);
+
+        if ($validacpf->validate_cpf() == false) {
+            return false;
+        }
+
+        $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
+
         $pData['updated_at'] = Date::dateTimeNow();
         $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento']);
-        $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
-        
+
         if ($pId != null) {
             Pacientes::find($pId)->update($pData);
         } else {

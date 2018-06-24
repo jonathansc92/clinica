@@ -21,17 +21,25 @@ class Planos extends Model {
     public function __construct() {
         
     }
-    
-    public function pacientes(){
+
+    public function pacientes() {
         return $this->belongsTo(\App\Models\Pacientes::class, 'id_plano');
     }
-    
-    public function saveOrUpdate($pData, $pId){
-                
+
+    public function saveOrUpdate($pData, $pId) {
+
+        $validacpf = new ValidatorCPFCNPJ($pData['cnpj']);
+
+        if ($validacpf->validate_cnpj() == false) {
+            return false;
+        }
+
+        $pData['cnpj'] = str_replace(array("-", "."), array("", ""), $pData['cnpj']);
+
         $pData['updated_at'] = Date::dateTimeNow();
-               
+
         if ($pId != null) {
-             Planos::find($pId)->update($pData);
+            Planos::find($pId)->update($pData);
         } else {
             $plano = new Planos();
             $plano->created_at = Date::dateTimeNow();
