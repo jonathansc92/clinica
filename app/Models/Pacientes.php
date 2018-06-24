@@ -37,15 +37,16 @@ class Pacientes extends Model {
     public function saveOrUpdate($pData, $pId = null) {
 
         $pData['updated_at'] = Date::dateTimeNow();
-
-        $pData['d_nascimento'] = \Carbon\Carbon::parse($pData['d_nascimento'])->format('Y-m-d');
-
+        $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento']);
+        $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
+        
         if ($pId != null) {
             Pacientes::find($pId)->update($pData);
         } else {
             $paciente = new Pacientes();
             $paciente->created_at = Date::dateTimeNow();
             $paciente->id_plano = $pData['id_plano'];
+            $paciente->d_nascimento = $pData['d_nascimento'];
             $paciente->nome = $pData['nome'];
             $paciente->save();
             return $paciente->id;

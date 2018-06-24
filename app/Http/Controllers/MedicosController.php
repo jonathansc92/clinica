@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Models\Medicos;
 use Toastr;
+use Illuminate\Support\Facades\Log;
 
 class MedicosController extends Controller {
 
@@ -40,6 +41,8 @@ class MedicosController extends Controller {
 
     public function index() {
         $displayName = 'Médicos';
+//       $log = Log::alert('just test');
+//       dd($log);
         return view('medicos.index', compact('displayName', $displayName));
     }
 

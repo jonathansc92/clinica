@@ -45,7 +45,7 @@
               rel="stylesheet">
 
         <script src="{{ asset('theme/uplon-admin/js/jquery.min.js') }}"></script>
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+        <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 
         <script src="{{ asset('theme/uplon-admin/js/bootstrap.min.js') }}"></script>
 
@@ -182,7 +182,10 @@ $('textarea').ckeditor();
 
         <script src="{{ asset('theme/uplon-admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="{{ asset('js/toastr.min.js') }}"></script>
+
+        <script src="{{ asset('js/scripts.js') }}"></script>
+        <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
         {!! Toastr::render() !!}
 
         @include('components.modal')

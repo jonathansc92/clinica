@@ -161,6 +161,8 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 		Way\Generators\GeneratorsServiceProvider::class,
 		Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+		    Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
+
     ],
     /*
       |--------------------------------------------------------------------------
@@ -210,5 +212,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Toastr' => 'Kamaln7\Toastr\Facades\Toastr',
         'PDF' => Barryvdh\DomPDF\Facade::class,
+		    'FFMpeg' => Pbmedia\LaravelFFMpeg\FFMpegFacade::class
+
     ],
 ];

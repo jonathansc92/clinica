@@ -25,17 +25,14 @@
         <tr align='center'>
             <th align='center'>Data</th>
             <th align='center'>Paciente</th>
-            <th align='center'>Médico</th>
-            <th align='center'>Valor</th>
-            
+            <th align='center'>Médico</th>            
         </tr>
 
         @foreach($data as $agendamento)
         <tr>
-            <td>{{\Carbon\Carbon::parse($agendamento->data)->format('d/m/Y')}}</td>
+            <td>{{\Carbon\Carbon::parse($agendamento->data_hora)->format('d/m/Y')}}</td>
             <td>{{$agendamento->paciente->nome}}</td>
             <td>{{$agendamento->medico->nome}}</td>
-            <td>{{Carbon\Carbon::parse(Request::get('data_inicial'))->format('Y-m-d')}}</td>
         </tr>
         @endforeach
 

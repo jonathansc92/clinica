@@ -39,16 +39,18 @@ class Agendamentos extends Model {
     
     public function gridLst(){
       return $this->select(
-                        'tb_agendamento.id', 'data', 'tb_paciente.nome as id_paciente', 'tb_cadastro_medico.nome as id_medico', 'tb_agendamento.status'
+                        'tb_agendamento.id', 'tb_agendamento.data_hora', 'tb_paciente.nome as id_paciente', 'tb_cadastro_medico.nome as id_medico', 'tb_agendamento.status'
                 )
                 ->join('tb_paciente', 'tb_paciente.id', '=', 'tb_agendamento.id_paciente')
-                ->join('tb_cadastro_medico', 'tb_cadastro_medico.id', '=', 'tb_agendamento.id_medico')->OrderBy('data', 'DESC');
+                ->join('tb_cadastro_medico', 'tb_cadastro_medico.id', '=', 'tb_agendamento.id_medico')->OrderBy('data_hora', 'DESC');
     }
 
     public function saveOrUpdate($pData, $pId = null) {
 
         $pData['updated_at'] = Date::dateTimeNow();
-        $pData['data_hora'] = Date::formatUSA($pData['data_hora']);
+        $pData['data_hora'] = Date::formatUSA($pData['data_hora'], 'S');
+        
+        dd($pData);
 
         if ($pId != null) {
             Agendamentos::find($pId)->update($pData);
@@ -57,7 +59,8 @@ class Agendamentos extends Model {
             $agendamentos->created_at = Date::dateTimeNow();
             $agendamentos->id_medico = $pData['id_medico'];
             $agendamentos->id_paciente = $pData['id_paciente'];
-            $agendamentos->status = $pData['status'];
+            $agendamentos->data_hora = $pData['data_hora'];
+            $agendamentos->status = 1;
             $agendamentos->save();
             return $agendamentos->id;
         }
@@ -68,8 +71,8 @@ class Agendamentos extends Model {
 //        dd($data_inicial);
                         
         return Agendamentos::with(['medico', 'paciente'])
-                ->whereBetween('data', [$pDateInitial, $pDataEnd])
-                ->orderBy('data', 'desc')
+                ->whereBetween('data_hora', [$pDateInitial, $pDataEnd])
+                ->orderBy('data_hora', 'desc')
                 ->get();
     }
 

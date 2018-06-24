@@ -43,15 +43,23 @@ class AgendamentosController extends Controller {
                             return Status::getStatusWithStyle($rec->status);
                         })
                         ->addColumn('actions', function ($model) {
-                            return '
+                            $actions = '
                         <button id="getModal" class="btn btn-info" 
                 data-title="Agendamento" 
                 data-toggle="modal" 
                 data-type="view" 
                 data-target=".modal" 
-                data-url="/agendamentos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>
+                data-url="/agendamentos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>';
                 
-                <a class="btn btn-primary" href="/agendamentos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>';
+                            if (Date::isDataGreater(Date::dateTimeNow(), $model->data_hora) <> 1 AND $model->status <> 2) {
+                                $actions .= ' <a class="btn btn-warning" href="/agendamentos/cancelar/' . $model->id . '"><i class="fa fa-close"></i> Cancelar Agendamento</a>';
+                            }
+                            
+//                            if($model->status == 1 AND Date::isDataGreater(Date::dateTimeNow(), $model->data_hora) <> 1){
+//                                $actions .= ' <a class="btn btn-primary" href="/agendamentos/edit/' . $model->id . '"><i class="fa fa-edit"></i> </a>';
+//                            }
+
+                            return $actions;
                         })
                         ->setTotalRecords($builder->count())
                         ->rawColumns(['actions', 'status'])->make(true);
@@ -76,7 +84,7 @@ class AgendamentosController extends Controller {
         $agendamento = $this->model->saveOrUpdate($request->all());
 
         Toastr::success('Salvo com sucesso', $title = 'Agendamento', $options = []);
-        return redirect('/agendamentos/edit/' . $agendamento);
+        return redirect('/agendamentos');
     }
 
     public function edit($id) {
@@ -122,13 +130,26 @@ class AgendamentosController extends Controller {
 
     public function emitirRelatorio(Request $request) {
 
-        return $this->reports->geraRelatorio($request->data_inicial,$request->data_final);
-        
+        return $this->reports->geraRelatorio($request->data_inicial, $request->data_final);
     }
 
     public function download(Request $request) {
 
-        return $this->reports->doPdf($request->data_inicial,$request->data_final);
+        return $this->reports->doPdf($request->data_inicial, $request->data_final);
+    }
+
+    public function cancelar(Request $request) {
+
+        $agendamento = $this->model->find($request->id)->first();
+        
+        if (Date::isDataGreater(Date::dateTimeNow(), $agendamento->data_hora) <> 1) {
+            $this->model->find($request->id)->update(['status' => 2]);
+            Toastr::success('Cancelado com sucesso.', $title = 'Agendamento', $options = []);
+        }
+        else{
+            Toastr::danger('Não pode ser cancelado.', $title = 'Agendamento', $options = []);
+        }
+        return redirect()->back();
     }
 
 }

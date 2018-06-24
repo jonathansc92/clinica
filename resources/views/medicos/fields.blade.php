@@ -11,7 +11,7 @@
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('cpf', 'CPF', ['class'=>'required']) !!}
-            {!! Form::number('cpf', isset($data->cpf)?$data->cpf:null, ['required'=>'required','class'=>'form-control', 'placeholder'=>'Digite o número de CPF'])!!}
+            {!! Form::text('cpf', isset($data->cpf)?$data->cpf:null, ['id'=>'cpf','data-mask'=>"000.000.000-00",'required'=>'required','class'=>'form-control cpf', 'placeholder'=>'Digite o número de CPF'])!!}
         </div>
     </div>
 </div>
@@ -66,6 +66,26 @@ $(document).ready(function () {
         format: "dd/mm/yyyy",
 
         locale: 'pt-br'
+    });
+
+});
+</script>
+
+<script>
+
+$(document).ready(function () {
+   
+    $('.cpf').on('blur', function () {
+            var cpf = $("#" + this.id).val();
+
+            if (cpf != "") {
+                if (isCPF(cpf) == false) {
+                    console.log('CPF inválido, preencha um CPF válido.');
+                    toastr.error('CPF inválido, preencha um CPF válido.');
+                    $( "input[name*='cpf']" ).val("");
+                    return false;
+               }
+            }
     });
 
 });
