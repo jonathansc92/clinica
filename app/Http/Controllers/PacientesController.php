@@ -53,10 +53,17 @@ class PacientesController extends Controller {
     }
 
     public function store(Request $request) {
-        $data = $this->obj->saveOrUpdate($request->all());
+        $pacientes = $this->obj->saveOrUpdate($request->all());
 
-        Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
-        return redirect('/pacientes/edit/' . $data);
+        if(is_numeric($pacientes)) {
+            Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
+            return redirect('/pacientes/edit/' . $pacientes);
+        }
+        else {
+            Toastr::warning($pacientes, $title = 'Paciente', $options = []);
+            return redirect()->back();
+        }
+
     }
 
     public function edit($id) {
@@ -74,8 +81,14 @@ class PacientesController extends Controller {
 
     public function update(Request $request, $id) {
         
-        $this->obj->saveOrUpdate($request->all(), $id);
-        Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
+       $pacientes = $this->obj->saveOrUpdate($request->all(), $id);
+
+       if(is_numeric($pacientes))
+            Toastr::success('Salvo com sucesso', $title = 'Paciente', $options = []);
+       else
+            Toastr::warning($pacientes, $title = 'Paciente', $options = []);
+
+
 
         return redirect()->back();
     }

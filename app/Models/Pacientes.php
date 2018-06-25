@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\Date;
+use App\Libs\ValidatorCPFCNPJ;
 
-class Pacientes extends Model {
+class Pacientes extends Model
+{
 
     protected $fillable = [
         'id',
@@ -20,11 +22,13 @@ class Pacientes extends Model {
     protected $table = 'tb_paciente';
     protected $primaryKey = 'id';
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
-    public static function rules() {
+    public static function rules()
+    {
         return [
             'cpf' => 'required|',
             'nome' => 'required',
@@ -34,21 +38,30 @@ class Pacientes extends Model {
         ];
     }
 
-    public function saveOrUpdate($pData, $pId = null) {
+    public function saveOrUpdate($pData, $pId = null)
+    {
 
         $validacpf = new ValidatorCPFCNPJ($pData['cpf']);
 
         if ($validacpf->validate_cpf() == false) {
-            return false;
+            return 'CPF Inválido.';
         }
 
         $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
 
+
+        $verifyDoubleKeycpf = Pacientes::where('cpf', $pData['cpf'])->first();
+
+        if ($verifyDoubleKeycpf) {
+            return 'CPF, já consta cadastrado em outro paciente.';
+        }
+
         $pData['updated_at'] = Date::dateTimeNow();
-        $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento']);
+        $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento'], 'N');
 
         if ($pId != null) {
             Pacientes::find($pId)->update($pData);
+            return $pId;
         } else {
             $paciente = new Pacientes();
             $paciente->created_at = Date::dateTimeNow();
@@ -60,13 +73,15 @@ class Pacientes extends Model {
         }
     }
 
-    public function gridLst() {
+    public function gridLst()
+    {
         return $this->select(
-                                'tb_paciente.id', 'cpf', 'nome', 'd_nascimento', 'sexo', 'tb_plano.descricao as id_plano')
-                        ->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano')->OrderBy('nome', 'ASC');
+            'tb_paciente.id', 'cpf', 'nome', 'd_nascimento', 'sexo', 'tb_plano.descricao as id_plano')
+            ->join('tb_plano', 'tb_plano.id', '=', 'tb_paciente.id_plano')->OrderBy('nome', 'ASC');
     }
 
-    public function plano() {
+    public function plano()
+    {
         return $this->belongsTo(\App\Models\Planos::class, 'id_plano');
     }
 

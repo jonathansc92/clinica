@@ -59,9 +59,15 @@ class PlanosController extends Controller {
         
        $planos = $this->model->saveOrUpdate($request->all(), null);
 
-        Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+        if(is_numeric($planos)) {
+            Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+            return redirect('/planos/edit/' . $planos);
+        }
+        else {
+            Toastr::warning($planos, $title = 'Plano', $options = []);
+            return redirect()->back();
+        }
 
-        return redirect('/planos/edit/' . $planos);
     }
 
     public function edit($id) {
@@ -77,9 +83,16 @@ class PlanosController extends Controller {
 
     public function update(Request $request, $id) {
 
-        $this->model->saveOrUpdate($request->all(), $id);
+        $planos = $this->model->saveOrUpdate($request->all(), $id);
 
         Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+
+        if(is_numeric($planos)) {
+            Toastr::success('Salvo com sucesso', $title = 'Plano', $options = []);
+        }
+        else {
+            Toastr::warning($planos, $title = 'Plano', $options = []);
+        }
 
         return redirect()->back();
     }

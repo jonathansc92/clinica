@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\ValidatorCPFCNPJ;
+use App\Libs\Date;
 
 class Medicos extends Model {
 
@@ -36,23 +37,31 @@ class Medicos extends Model {
     }
 
     public function saveOrUpdate($pData, $pId = null) {
-        
+
         $validacpf = new ValidatorCPFCNPJ($pData['cpf']);
-            
-        if($validacpf->validate_cpf() == false){
-            return false;
+
+        if ($validacpf->validate_cpf() == false) {
+            return 'CPF Inválido.';
         }
-        
+
         $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
+
+
+        $verifyDoubleKeycpf = Pacientes::where('cpf', $pData['cpf'])->first();
+
+        if ($verifyDoubleKeycpf) {
+            return 'CPF, já consta cadastrado em outro paciente.';
+        }
 
         $dateNow = \Carbon\Carbon::now()->toDateTimeString();
 
         $pData['updated_at'] = $dateNow;
 
-        $pData['d_nascimento'] = \Carbon\Carbon::parse($pData['d_nascimento'])->format('Y-m-d');
+        $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento'], 'N');
         
         if ($pId != null) {
-            Medicos::find($pId)->update($pData);
+            $medico = Medicos::find($pId)->update($pData);
+            return $pId;
         } else {
             $medicos = new Medicos();
             $medicos->nome = $pData['nome'];

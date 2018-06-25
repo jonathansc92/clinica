@@ -57,8 +57,15 @@ class MedicosController extends Controller {
 
         $data = $this->obj->saveOrUpdate($request->all());
 
-        Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
-        return redirect('/medicos/edit/' . $data);
+        if(is_numeric($data)) {
+            Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
+            return redirect('/pacientes/edit/' . $data);
+        }
+        else {
+            Toastr::warning($data, $title = 'Médico', $options = []);
+            return redirect()->back();
+        }
+
     }
 
     public function edit($id) {
@@ -75,9 +82,13 @@ class MedicosController extends Controller {
 
     public function update(Request $request, $id) {
 
-        $this->obj->saveOrUpdate($request->all(), $id);
+        $medico = $this->obj->saveOrUpdate($request->all(), $id);
 
-        Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
+
+        if(is_numeric($medico))
+            Toastr::success('Salvo com sucesso', $title = 'Médico', $options = []);
+        else
+            Toastr::warning($medico, $title = 'Médico', $options = []);
 
         return redirect()->back();
     }

@@ -9,10 +9,12 @@ class Date {
     public static function formatUSA($pDate, $time = 'S') {
 
         if ($time == 'S') {
-            return Carbon::parse($pDate)->format('Y-m-d h:i:s');
+            $dataFormatted = Carbon::parse($pDate)->format('Y-m-d h:i:s');
         } else {
-            return Carbon::parse($pDate)->format('Y-m-d');
+            $dataFormatted = Carbon::parse($pDate)->format('Y-m-d');
         }
+
+        return $dataFormatted;
     }
 
     public static function isDataGreater($pData, $pData2) {
@@ -33,11 +35,13 @@ class Date {
     }
 
     public static function convertBRToUSA($pDate, $time = 'S') {
+
         if ($time == 'S') {
-            return Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d h:i');
+            $dataFormatted = Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d h:i');
         } else {
-            return Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d');
+            $dataFormatted = Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d');
         }
+        return $dataFormatted;
     }
 
 }
