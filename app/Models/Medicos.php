@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\ValidatorCPFCNPJ;
 use App\Libs\Date;
+use Illuminate\Support\Facades\Log;
 
 class Medicos extends Model {
 
@@ -41,15 +42,17 @@ class Medicos extends Model {
         $validacpf = new ValidatorCPFCNPJ($pData['cpf']);
 
         if ($validacpf->validate_cpf() == false) {
+            Log::error("### Cadastro de Médicos ### CPF " . $pData['cpf'] . ", é Inválido. ");
             return 'CPF Inválido.';
         }
 
         $pData['cpf'] = str_replace(array("-", "."), array("", ""), $pData['cpf']);
 
-
-        $verifyDoubleKeycpf = Pacientes::where('cpf', $pData['cpf'])->first();
+        $verifyDoubleKeycpf = Medicos::where('cpf', $pData['cpf'])->where('id', '<>', $pId)
+        ->select('nome', 'cpf', 'id')->first();
 
         if ($verifyDoubleKeycpf) {
+            Log::error("### Cadastro de Médicos ### CPF " . $pData['cpf'] . ", já consta cadastrado para o dado de ID " . $verifyDoubleKeycpf->id);
             return 'CPF, já consta cadastrado em outro paciente.';
         }
 
@@ -58,7 +61,7 @@ class Medicos extends Model {
         $pData['updated_at'] = $dateNow;
 
         $pData['d_nascimento'] = Date::convertBRToUSA($pData['d_nascimento'], 'N');
-        
+
         if ($pId != null) {
             $medico = Medicos::find($pId)->update($pData);
             return $pId;

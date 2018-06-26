@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\Date;
 use App\Libs\ValidatorCPFCNPJ;
+use Illuminate\Support\Facades\Log;
 
 class Planos extends Model {
 
@@ -33,21 +34,17 @@ class Planos extends Model {
         $validacpf = new ValidatorCPFCNPJ($pData['cnpj']);
 
         if ($validacpf->validate_cnpj() == false) {
+            Log::error('## Planos ## CNPJ Inválido');
             return 'CNPJ Inválido';
         }
 
         $pData['cnpj'] = str_replace(array("-", ".", "/"), array("", "", ""), $pData['cnpj']);
 
-        $verifyDoubleKeycnpj = Planos::where('cnpj', $pData['cnpj']);
-         if ($pId) {
-             $verifyDoubleKeycnpj->where(function($verifyDoubleKeycnpj){
-                 $verifyDoubleKeycnpj->where('id','<>',$pId);
-             });
-         }
-
-        $verifyDoubleKeycnpj->first();
+        $verifyDoubleKeycnpj = Planos::where('cnpj', $pData['cnpj'])->where('id', '<>', $pId)
+        ->select('nome', 'cpf', 'id')->first();
 
         if ($verifyDoubleKeycnpj) {
+            Log::error('## Planos ## CNPJ já cadastrado id '.$verifyDoubleKeycnpj->id);
             return 'CNPJ, já consta cadastrado em outro paciente.';
         }
 

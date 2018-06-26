@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Libs\Date;
 use App\Models\Medicos;
 use App\Models\Pacientes;
+use Illuminate\Support\Facades\Log;
 
 class Agendamentos extends Model {
 
@@ -48,7 +49,15 @@ class Agendamentos extends Model {
     public function saveOrUpdate($pData, $pId = null) {
 
         $pData['updated_at'] = Date::dateTimeNow();
-        $pData['data_hora'] = Date::formatUSA($pData['data_hora'], 'S');
+        $pData['data_hora'] = Date::dateTimeBR($pData['data_hora']);
+        
+        $verifyAgendamento = $this->where('id_medico', $pData['id_medico'])
+                ->where('data_hora', $pData['data_hora'])->first();
+        
+        if($verifyAgendamento){
+            Log::error('## Agendamento ## Data para o médico ocupada.');
+            return 'Data para o médico ocupada.';
+        }
         
         dd($pData);
 
