@@ -1,8 +1,16 @@
+
 <div class="row">
-    <div class='col-md-12'>
+    <div class='col-md-6'>
         <div class='form-group'>
-            {!!Form::label('data_hora', 'Data')!!}
-            {!! Form::text('data_hora', null,['required'=>'required','class'=>'form-control', 'data-mask'=>'00/00/0000 00:00']) !!}
+            {!!Form::label('data', 'Data do Agendamento')!!}
+            {!! Form::text('data', null,['required'=>'required','class'=>'datepicker form-control', 'data-mask'=>'00/00/0000']) !!}
+        </div>
+    </div>
+
+    <div class='col-md-6'>
+        <div class='form-group'>
+            {!!Form::label('hora', 'Hora do Agendamento')!!}
+            {!! Form::text('hora', null,['id'=>'timepicker','required'=>'required','class'=>'form-control']) !!}
         </div>
     </div>
 
@@ -28,3 +36,25 @@
 </div>
 
 
+
+<script>
+
+    $(document).ready(function () {
+//    $.datepicker.setDefaults($.datepicker.regional['pt-br']);
+// Date Picker
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy",
+
+            locale: 'pt-br'
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#timepicker').timepicker({
+            showMeridian: false
+        });
+    });
+</script>

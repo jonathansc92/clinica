@@ -43,6 +43,8 @@
         <link href="{{ asset('theme/uplon-admin/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet">
         <link href="{{ asset('theme/uplon-admin/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}"
               rel="stylesheet">
+        <link href="{{ asset('theme/uplon-admin/plugins/timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
+
 
         <script src="{{ asset('theme/uplon-admin/js/jquery.min.js') }}"></script>
         <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
@@ -181,6 +183,8 @@ $('textarea').ckeditor();
         <script src="{{ asset('theme/uplon-admin/plugins/custombox/js/legacy.min.js') }}"></script>
 
         <script src="{{ asset('theme/uplon-admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ asset('theme/uplon-admin/plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
+
 
         <script src="{{ asset('js/toastr.min.js') }}"></script>
 

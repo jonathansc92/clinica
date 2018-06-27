@@ -51,7 +51,7 @@ class AgendamentosController extends Controller {
                 data-target=".modal" 
                 data-url="/agendamentos/show/' . $model->id . '"><i class="fa fa-eye"></i></button>';
                 
-                            if (Date::isDataGreater(Date::dateTimeNow(), $model->data_hora) <> 1 AND $model->status <> 2) {
+                            if (Date::isDataGreater(Date::dateTimeNow(), $model->data_hora) == false AND $model->status <> 2) {
                                 $actions .= ' <a class="btn btn-warning" href="/agendamentos/cancelar/' . $model->id . '"><i class="fa fa-close"></i> Cancelar Agendamento</a>';
                             }
                             
@@ -142,12 +142,14 @@ class AgendamentosController extends Controller {
 
         $agendamento = $this->model->find($request->id)->first();
         
-        if (Date::isDataGreater(Date::dateTimeNow(), $agendamento->data_hora) <> 1) {
+        if (Date::isDataGreater($agendamento->data_hora, Date::dateTimeNow()) != true) {
+            
             $this->model->find($request->id)->update(['status' => 2]);
             Toastr::success('Cancelado com sucesso.', $title = 'Agendamento', $options = []);
+            
         }
         else{
-            Toastr::danger('Não pode ser cancelado.', $title = 'Agendamento', $options = []);
+            Toastr::error('Não pode ser cancelado.', $title = 'Agendamento', $options = []);
         }
         return redirect()->back();
     }

@@ -49,7 +49,8 @@ class Agendamentos extends Model {
     public function saveOrUpdate($pData, $pId = null) {
 
         $pData['updated_at'] = Date::dateTimeNow();
-        $pData['data_hora'] = Date::dateTimeBR($pData['data_hora']);
+        $data_consulta = Date::convertBRToUSA($pData['data'], 'N');
+        $pData['data_hora'] = $data_consulta . ' '. $pData['hora'];
         
         $verifyAgendamento = $this->where('id_medico', $pData['id_medico'])
                 ->where('data_hora', $pData['data_hora'])->first();
@@ -59,8 +60,6 @@ class Agendamentos extends Model {
             return 'Data para o médico ocupada.';
         }
         
-        dd($pData);
-
         if ($pId != null) {
             Agendamentos::find($pId)->update($pData);
         } else {

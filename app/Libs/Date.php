@@ -19,7 +19,6 @@ class Date {
 
     public static function isDataGreater($pData, $pData2) {
 
-//        dd(strtotime($pData2).' '.strtotime($pData));
         if (strtotime($pData) > strtotime($pData2)) {
             return true;
         }
@@ -37,7 +36,7 @@ class Date {
     public static function convertBRToUSA($pDate, $time = 'S') {
 
         if ($time == 'S') {
-            $dataFormatted = Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d h:i');
+            $dataFormatted = Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d h:i:s');
         } else {
             $dataFormatted = Carbon::createFromFormat('d/m/Y', $pDate)->format('Y-m-d');
         }
